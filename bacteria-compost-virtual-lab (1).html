@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>معمل البكتيريا النافعة — التحلل والسماد العضوي | مختبر افتراضي تفاعلي</title>
+<style>
+  :root{
+    --sky-50:#f0f9ff; --sky-100:#e0f2fe; --sky-200:#bae6fd; --sky-400:#38bdf8;
+    --sky-500:#0ea5e9; --sky-600:#0284c7; --sky-700:#0369a1; --sky-900:#0c4a6e;
+    --slate-50:#f8fafc; --slate-200:#e2e8f0; --slate-400:#94a3b8; --slate-600:#475569; --slate-800:#1e293b;
+    --amber-500:#f59e0b; --amber-100:#fef3c7;
+    --green-500:#16a34a; --green-100:#dcfce7; --green-700:#15803d;
+    --red-500:#dc2626; --red-100:#fee2e2;
+    --lime-500:#65a30d; --lime-100:#ecfccb;
+    --font: -apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Cairo",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:var(--font); background:linear-gradient(180deg,var(--green-100),#fff 400px); color:var(--slate-800); line-height:1.7; padding-bottom:60px;}
+  .wrap{max-width:920px; margin:0 auto; padding:20px;}
+
+  header.top{background:linear-gradient(135deg,var(--green-700),var(--lime-500)); color:#fff; border-radius:18px; padding:28px 30px; margin-bottom:22px; box-shadow:0 10px 30px -12px rgba(21,128,61,.5); position:relative; overflow:hidden;}
+  header.top::after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 20%, rgba(255,255,255,.18), transparent 55%);}
+  header.top .eyebrow{font-size:13px; letter-spacing:.5px; opacity:.85; font-weight:600; position:relative;}
+  header.top h1{font-size:26px; margin-top:6px; position:relative;}
+  header.top p{margin-top:8px; font-size:14.5px; max-width:640px; opacity:.92; position:relative;}
+
+  .stepper{display:flex; justify-content:space-between; margin:26px 0 24px; position:relative;}
+  .stepper::before{content:""; position:absolute; top:17px; right:5%; left:5%; height:3px; background:var(--slate-200); z-index:0;}
+  .step{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;}
+  .step .dot{width:36px; height:36px; border-radius:50%; background:#fff; border:3px solid var(--slate-200); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--slate-400); font-size:14px; transition:.25s;}
+  .step .lbl{font-size:11.5px; color:var(--slate-600); font-weight:600; text-align:center;}
+  .step.active .dot{border-color:var(--green-500); color:var(--green-700); background:var(--green-100); box-shadow:0 0 0 5px var(--lime-100);}
+  .step.done .dot{border-color:var(--green-500); background:var(--green-500); color:#fff;}
+  .step.done .lbl, .step.active .lbl{color:var(--slate-800);}
+
+  .panel{display:none; background:#fff; border:1px solid var(--slate-200); border-radius:16px; padding:26px; box-shadow:0 4px 18px -8px rgba(15,23,42,.12); animation:fade .35s ease;}
+  .panel.show{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .tag{display:inline-block; font-size:11.5px; font-weight:700; padding:4px 11px; border-radius:99px; background:var(--green-100); color:var(--green-700); margin-bottom:10px;}
+  h2.stage-title{font-size:20px; color:var(--green-700); margin-bottom:4px;}
+  .sub{color:var(--slate-600); font-size:14px; margin-bottom:18px;}
+
+  .story{background:var(--green-100); border-right:4px solid var(--green-500); padding:16px 18px; border-radius:10px; font-size:14.5px; color:var(--slate-800); margin-bottom:20px;}
+  .story b{color:var(--green-700);}
+
+  .qcard{border:1px solid var(--slate-200); border-radius:12px; padding:16px 18px; margin-bottom:14px; background:var(--slate-50);}
+  .qcard .qtext{font-weight:700; margin-bottom:10px; font-size:14.5px;}
+  .opt{display:block; width:100%; text-align:right; background:#fff; border:1.5px solid var(--slate-200); border-radius:9px; padding:10px 14px; margin-bottom:8px; cursor:pointer; font-size:14px; font-family:inherit; transition:.15s;}
+  .opt:hover{border-color:var(--green-400,var(--green-500));}
+  .opt.correct{border-color:var(--green-500); background:var(--green-100);}
+  .opt.wrong{border-color:var(--red-500); background:var(--red-100);}
+  .opt:disabled{cursor:default;}
+  .fb{margin-top:10px; padding:10px 12px; border-radius:8px; font-size:13.5px; display:none;}
+  .fb.ok{display:block; background:var(--green-100); color:#14532d; border:1px solid #86efac;}
+  .fb.bad{display:block; background:var(--red-100); color:#7f1d1d; border:1px solid #fca5a5;}
+
+  .btn{background:var(--green-600,#16a34a); color:#fff; border:none; padding:11px 22px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit; transition:.15s;}
+  .btn:hover{background:var(--green-700);}
+  .btn:disabled{background:var(--slate-200); color:var(--slate-400); cursor:not-allowed;}
+  .btn.ghost{background:#fff; color:var(--green-700); border:1.5px solid var(--green-200,var(--green-100));}
+  .btn.small{padding:7px 14px; font-size:12.5px; border-radius:8px;}
+  .nav-row{display:flex; justify-content:space-between; margin-top:22px; gap:10px;}
+
+  .lab-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:20px;}
+  @media(max-width:760px){.lab-grid{grid-template-columns:1fr;}}
+  .ctrl-box{background:var(--slate-50); border:1px solid var(--slate-200); border-radius:12px; padding:16px;}
+  .ctrl-box label{font-size:13px; font-weight:700; display:flex; justify-content:space-between; margin-bottom:6px;}
+  .ctrl-box label span.val{color:var(--green-700);}
+  input[type=range]{width:100%; accent-color:#16a34a; margin-bottom:16px;}
+  canvas#dish{width:100%; background:#1c1917; border-radius:10px; border:1px solid var(--slate-200);}
+  .readouts{display:flex; gap:10px; margin-top:12px;}
+  .ro{flex:1; text-align:center; background:#fff; border:1px solid var(--slate-200); border-radius:10px; padding:10px 6px;}
+  .ro .n{font-size:17px; font-weight:800; color:var(--green-700);}
+  .ro .l{font-size:11px; color:var(--slate-600);}
+
+  table.dtab{width:100%; border-collapse:collapse; font-size:13px; margin-top:12px;}
+  table.dtab th, table.dtab td{border:1px solid var(--slate-200); padding:7px 8px; text-align:center;}
+  table.dtab th{background:var(--green-100); color:var(--green-700);}
+  canvas#graph{width:100%; background:#fff; border:1px solid var(--slate-200); border-radius:10px; margin-top:10px;}
+
+  .badge-final{text-align:center; padding:30px 10px;}
+  .badge-final .circle{width:96px; height:96px; border-radius:50%; background:linear-gradient(135deg,var(--green-500),var(--green-700)); margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:30px; font-weight:800; box-shadow:0 8px 24px -8px rgba(21,128,61,.5);}
+  .note{font-size:12.5px; color:var(--slate-600); background:var(--amber-100); border-right:3px solid var(--amber-500); padding:8px 12px; border-radius:8px; margin-top:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">مختبر افتراضي تفاعلي · تصميم قائم على الاستقصاء</div>
+    <h1>معمل البكتيريا النافعة — كومة السماد الذكية</h1>
+    <p>محاكاة حيّة لمنحنى نمو المستعمرات البكتيرية أثناء تحلّل المخلفات العضوية، بقرارات هندسية-بيئية حقيقية وتغذية راجعة فورية.</p>
+  </header>
+
+  <div class="stepper" id="stepper"></div>
+
+  <!-- STAGE 1 : ENGAGE -->
+  <section class="panel" id="stage-0">
+    <span class="tag">المرحلة 1 · الإثارة (Engage)</span>
+    <h2 class="stage-title">مشكلة حقيقية بانتظار حل</h2>
+    <p class="sub">ناتج التعلم: تذكّر دور البكتيريا النافعة في التحلل (Remember / Understand)</p>
+    <div class="story">
+      أنت فني زراعي في مزرعة تجريبية تابعة للجامعة. لدى المزرعة كومة مخلفات عضوية (بقايا نباتية) تحتاج تحويلها
+      إلى سماد غني خلال أسبوعين فقط قبل موسم الزراعة. المشرف يطلب منك أولًا أن تثبت فهمك لكيفية عمل
+      <b>البكتيريا النافعة</b> قبل أن يسلّمك مسؤولية ضبط الكومة الحقيقية.
+    </div>
+    <div class="qcard" id="q0">
+      <div class="qtext">ما الدور الأساسي للبكتيريا النافعة في عملية التسميد العضوي (Composting)؟</div>
+      <button class="opt" data-c="0">تفكيك المركبات العضوية المعقدة إلى مواد بسيطة يمتصها التربة والنبات</button>
+      <button class="opt" data-c="1">إنتاج الأكسجين اللازم لنمو النبات مباشرة</button>
+      <button class="opt" data-c="0">تلوين المخلفات العضوية لتسهيل فرزها</button>
+      <div class="fb"></div>
+    </div>
+    <div class="nav-row">
+      <span></span>
+      <button class="btn" id="next0" disabled>ابدأ الاستكشاف →</button>
+    </div>
+  </section>
+
+  <!-- STAGE 2 : EXPLORE -->
+  <section class="panel" id="stage-1">
+    <span class="tag">المرحلة 2 · الاستكشاف (Explore)</span>
+    <h2 class="stage-title">شغّل الكومة وراقب نمو المستعمرة</h2>
+    <p class="sub">ناتج التعلم: تطبيق العلاقة بين الحرارة والرطوبة ونشاط البكتيريا (Apply)</p>
+    <div class="story">
+      حرّك مقياسي الحرارة والرطوبة وراقب تكاثر البكتيريا داخل الكومة حيًا. <b>منهجية مقترحة:</b> ابدأ بتشغيل الزمن
+      المتسارع (▶) عند إعداد معيّن، وسجّل تعداد المستعمرة كل عدة "أيام" لتحصل على منحنى نمو كامل تحلّله لاحقًا.
+    </div>
+    <div class="lab-grid">
+      <div>
+        <canvas id="dish" width="440" height="220"></canvas>
+        <div class="readouts">
+          <div class="ro"><div class="n" id="roDay">0</div><div class="l">اليوم</div></div>
+          <div class="ro"><div class="n" id="roPop">0</div><div class="l">تعداد المستعمرة (٪ من الحد الأقصى)</div></div>
+          <div class="ro"><div class="n" id="roDecomp">0٪</div><div class="l">نسبة التحلل</div></div>
+        </div>
+      </div>
+      <div class="ctrl-box">
+        <label>الحرارة T <span class="val" id="tVal">30 °م</span></label>
+        <input type="range" id="tSlider" min="0" max="80" step="1" value="30">
+        <label>الرطوبة M <span class="val" id="mVal">40٪</span></label>
+        <input type="range" id="mSlider" min="0" max="100" step="5" value="40">
+        <div style="display:flex; gap:8px; margin-bottom:10px;">
+          <button class="btn small" id="playBtn">▶ تشغيل الزمن</button>
+          <button class="btn ghost small" id="recordBtn">＋ تسجيل قراءة</button>
+          <button class="btn ghost small" id="resetBtn">↺ إعادة</button>
+        </div>
+        <div class="note" id="tableHint">سجّل 5 قراءات على الأقل عبر مراحل زمنية مختلفة لتفعيل مرحلة التحليل.</div>
+        <table class="dtab" id="dataTable">
+          <thead><tr><th>#</th><th>اليوم</th><th>T°م</th><th>رطوبة٪</th><th>تعداد٪</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn ghost" id="back1">← رجوع</button>
+      <button class="btn" id="next1" disabled>حلّل بياناتك →</button>
+    </div>
+  </section>
+
+  <!-- STAGE 3 : EXPLAIN -->
+  <section class="panel" id="stage-2">
+    <span class="tag">المرحلة 3 · التفسير (Explain)</span>
+    <h2 class="stage-title">اقرأ منحنى النمو البكتيري</h2>
+    <p class="sub">ناتج التعلم: تحليل بيانات النمو وتحديد مراحله الأربع (Analyze)</p>
+    <canvas id="graph" width="820" height="260"></canvas>
+    <div class="qcard" id="q2">
+      <div class="qtext">بالنظر إلى منحنى قراءاتك، أي طور يمثل الفترة التي يتباطأ فيها النمو بعد ذروته بسبب نفاد الغذاء وتراكم الفضلات؟</div>
+      <button class="opt" data-c="0">طور الكمون (Lag)</button>
+      <button class="opt" data-c="0">الطور اللوغاريتمي (Log)</button>
+      <button class="opt" data-c="1">الطور الساكن ثم الانحداري (Stationary → Death)</button>
+      <div class="fb"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn ghost" id="back2">← رجوع للاستكشاف</button>
+      <button class="btn" id="next2" disabled>التالي: تحدي التصميم →</button>
+    </div>
+  </section>
+
+  <!-- STAGE 4 : ELABORATE -->
+  <section class="panel" id="stage-3">
+    <span class="tag">المرحلة 4 · التوسّع (Elaborate)</span>
+    <h2 class="stage-title">تحدي المزرعة: سماد جاهز خلال 14 يومًا</h2>
+    <p class="sub">ناتج التعلم: تصميم ظروف بيئية تحقق هدف تحلل محدد بأمان (Create / Evaluate)</p>
+    <div class="story">
+      يحتاج الموسم الزراعي القادم كومة سماد <b>تصل لنسبة تحلل 70٪ فأكثر خلال 14 يومًا</b>، دون قتل البكتيريا
+      بحرارة مفرطة. اختر إعدادي الحرارة والرطوبة، ثم شغّل المحاكاة السريعة.
+    </div>
+    <div class="lab-grid">
+      <div class="ctrl-box">
+        <label>الحرارة المختارة T <span class="val" id="dtVal">55 °م</span></label>
+        <input type="range" id="dtSlider" min="0" max="80" step="1" value="55">
+        <label>الرطوبة المختارة M <span class="val" id="dmVal">55٪</span></label>
+        <input type="range" id="dmSlider" min="0" max="100" step="5" value="55">
+        <button class="btn small" id="testBtn">▶ اختبر التصميم (محاكاة 14 يومًا)</button>
+        <div class="fb" id="designFb"></div>
+      </div>
+      <canvas id="designGraph" width="380" height="220" style="background:#fff;border:1px solid var(--slate-200);border-radius:10px;"></canvas>
+    </div>
+    <div class="nav-row">
+      <button class="btn ghost" id="back3">← رجوع</button>
+      <button class="btn" id="next3" disabled>إنهاء المعمل: التقييم النهائي →</button>
+    </div>
+  </section>
+
+  <!-- STAGE 5 : EVALUATE -->
+  <section class="panel" id="stage-4">
+    <span class="tag">المرحلة 5 · التقييم (Evaluate)</span>
+    <h2 class="stage-title">تقييم ختامي</h2>
+    <p class="sub">يغطي هذا التقييم كل مستويات بلوم من التذكر إلى التقييم</p>
+    <div id="quizWrap"></div>
+    <div class="badge-final" id="finalBox" style="display:none;">
+      <div class="circle" id="finalScore">–</div>
+      <h3 id="finalTitle">أحسنت!</h3>
+      <p class="sub" id="finalSub"></p>
+      <button class="btn ghost small" id="restartBtn">إعادة المحاولة لإتقان أعلى</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ---------------- State ---------------- */
+const STAGES = ["الإثارة","الاستكشاف","التفسير","التوسّع","التقييم"];
+let current = 0;
+let unlocked = [true,false,false,false,false];
+let dataPoints = []; // {day, T, M, pop}
+
+function renderStepper(){
+  const el = document.getElementById('stepper'); el.innerHTML='';
+  STAGES.forEach((s,i)=>{
+    const d = document.createElement('div');
+    d.className = 'step' + (i===current?' active':'') + (unlocked[i+1] || i<current ? ' done':'');
+    d.innerHTML = `<div class="dot">${i<current?'✓':i+1}</div><div class="lbl">${s}</div>`;
+    el.appendChild(d);
+  });
+}
+function goTo(i){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+  document.getElementById('stage-'+i).classList.add('show');
+  current = i;
+  renderStepper();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+renderStepper(); goTo(0);
+
+/* ---------------- Growth model ----------------
+   منحنى نمو لوجستي متأثر بعامل حرارة (منحنى جرسي حول المدى الأمثل 45-60°م)
+   وعامل رطوبة (منحنى جرسي حول 50-65٪). العائد: معدل نمو فعّال r (يوميًا). */
+function tempFactor(T){
+  // مثالي حول 52°م (بكتيريا هوائية-حرارية)، ينهار فوق 70°م أو تحت 10°م
+  const optimal = 52, width = 16;
+  let f = Math.exp(-Math.pow((T-optimal)/width,2));
+  if (T > 70) f *= Math.max(0, 1-(T-70)/15); // موت حراري فوق 70
+  return f;
+}
+function moistureFactor(M){
+  const optimal = 58, width = 25;
+  return Math.exp(-Math.pow((M-optimal)/width,2));
+}
+function effectiveRate(T,M){
+  const rMax = 0.55; // أقصى معدل نمو يومي ممكن
+  return rMax * tempFactor(T) * moistureFactor(M);
+}
+// تعداد المستعمرة (نسبة من الحد الأقصى K=100) كدالة في الزمن (أيام)، بمعدل نمو فعّال ثابت خلال المحاكاة السريعة
+function populationAt(days, T, M){
+  const r = effectiveRate(T,M);
+  const K = 100, N0 = 2, lag = 1.2; // يوم كمون قبل بدء النمو الفعلي
+  const t = Math.max(0, days-lag);
+  return K / (1 + ((K-N0)/N0)*Math.exp(-r*t*4));
+}
+function decompositionAt(days, T, M){
+  // نسبة التحلل مرتبطة تراكميًا بتعداد المستعمرة عبر الزمن (تكامل مبسّط)
+  const pop = populationAt(days,T,M);
+  const r = effectiveRate(T,M);
+  return Math.min(100, pop * (0.55 + r*0.5));
+}
+
+/* ---------------- Stage 1: Engage ---------------- */
+(function(){
+  const q = document.getElementById('q0');
+  const opts = q.querySelectorAll('.opt');
+  const fb = q.querySelector('.fb');
+  opts.forEach(o=>o.addEventListener('click',()=>{
+    opts.forEach(x=>x.disabled=true);
+    const correctIdx = 0;
+    const chosen = [...opts].indexOf(o);
+    if(chosen===correctIdx){
+      o.classList.add('correct');
+      fb.className='fb ok'; fb.textContent='✔ صحيح — البكتيريا النافعة تُحلّل المركبات المعقدة (سليلوز، بروتينات) إلى عناصر بسيطة يسهل امتصاصها.';
+      document.getElementById('next0').disabled=false;
+    }else{
+      o.classList.add('wrong');
+      opts[correctIdx].classList.add('correct');
+      fb.className='fb bad'; fb.textContent='✘ الدور الأساسي هو التحليل الحيوي للمركبات العضوية، وليس إنتاج الأكسجين أو التلوين.';
+      document.getElementById('next0').disabled=false;
+    }
+  }));
+  document.getElementById('next0').addEventListener('click',()=>{unlocked[1]=true; goTo(1);});
+})();
+
+/* ---------------- Stage 2: Explore ---------------- */
+const tSlider = document.getElementById('tSlider');
+const mSlider = document.getElementById('mSlider');
+const tVal = document.getElementById('tVal');
+const mVal = document.getElementById('mVal');
+const roDay = document.getElementById('roDay');
+const roPop = document.getElementById('roPop');
+const roDecomp = document.getElementById('roDecomp');
+const dish = document.getElementById('dish');
+const dctx = dish.getContext('2d');
+let simDay = 0, playing = false, dots = [];
+
+function updateSliderLabels(){
+  tVal.textContent = tSlider.value+' °م';
+  mVal.textContent = mSlider.value+'٪';
+}
+tSlider.addEventListener('input', updateSliderLabels);
+mSlider.addEventListener('input', updateSliderLabels);
+updateSliderLabels();
+
+function currentPop(){ return populationAt(simDay, +tSlider.value, +mSlider.value); }
+function currentDecomp(){ return decompositionAt(simDay, +tSlider.value, +mSlider.value); }
+
+function drawDish(){
+  dctx.clearRect(0,0,dish.width,dish.height);
+  // petri dish circle
+  const cx=220, cy=110, R=95;
+  dctx.beginPath(); dctx.arc(cx,cy,R,0,Math.PI*2);
+  dctx.fillStyle='#292524'; dctx.fill();
+  dctx.strokeStyle='#57534e'; dctx.lineWidth=3; dctx.stroke();
+
+  const pop = currentPop();
+  const n = Math.max(0, Math.min(220, Math.round(pop*2.2)));
+  while(dots.length<n) dots.push({a:Math.random()*Math.PI*2, r:Math.random()*R*0.92, s:0.5+Math.random()});
+  dots = dots.slice(0,n);
+  const T = +tSlider.value;
+  const dead = T>72;
+  dctx.fillStyle = dead ? '#7f1d1d' : (T>=45&&T<=60 ? '#4ade80' : '#a3e635');
+  dots.forEach(d=>{
+    const x = cx + Math.cos(d.a)*d.r, y = cy + Math.sin(d.a)*d.r;
+    dctx.beginPath(); dctx.arc(x,y,1.6*d.s,0,Math.PI*2); dctx.fill();
+  });
+  dctx.fillStyle='#e7e5e4'; dctx.font='bold 12px sans-serif'; dctx.textAlign='center';
+  dctx.fillText('اليوم '+simDay.toFixed(1), cx, 20);
+  dctx.textAlign='left';
+
+  roDay.textContent = simDay.toFixed(1);
+  roPop.textContent = pop.toFixed(0)+'٪';
+  roDecomp.textContent = currentDecomp().toFixed(0)+'٪';
+}
+drawDish();
+
+let lastT = performance.now();
+function loop(now){
+  const dt=(now-lastT)/1000; lastT=now;
+  if(playing){ simDay += dt*1.5; if(simDay>30) simDay=30; }
+  drawDish();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+document.getElementById('playBtn').addEventListener('click',(e)=>{
+  playing = !playing;
+  e.target.textContent = playing ? '⏸ إيقاف مؤقت' : '▶ تشغيل الزمن';
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  simDay=0; playing=false; document.getElementById('playBtn').textContent='▶ تشغيل الزمن';
+});
+
+const tbody = document.querySelector('#dataTable tbody');
+document.getElementById('recordBtn').addEventListener('click',()=>{
+  const T=+tSlider.value, M=+mSlider.value, pop=currentPop();
+  dataPoints.push({day:simDay, T, M, pop});
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${dataPoints.length}</td><td>${simDay.toFixed(1)}</td><td>${T}</td><td>${M}</td><td>${pop.toFixed(0)}</td>`;
+  tbody.appendChild(tr);
+  if(dataPoints.length>=5){
+    document.getElementById('next1').disabled=false;
+    document.getElementById('tableHint').textContent='رائع، لديك بيانات كافية للانتقال إلى مرحلة التحليل.';
+  }
+});
+document.getElementById('back1').addEventListener('click',()=>goTo(0));
+document.getElementById('next1').addEventListener('click',()=>{unlocked[2]=true; drawGrowthGraph(); goTo(2);});
+
+/* ---------------- Stage 3: Explain ---------------- */
+function drawGrowthGraph(){
+  const c = document.getElementById('graph'); const g = c.getContext('2d');
+  g.clearRect(0,0,c.width,c.height);
+  const pad=40, w=c.width-pad*2, h=c.height-pad*2;
+  const sorted = [...dataPoints].sort((a,b)=>a.day-b.day);
+  const maxDay = Math.max(...sorted.map(p=>p.day),1)*1.15;
+  g.strokeStyle='#94a3b8'; g.lineWidth=1;
+  g.beginPath(); g.moveTo(pad,pad); g.lineTo(pad,pad+h); g.lineTo(pad+w,pad+h); g.stroke();
+  g.fillStyle='#475569'; g.font='12px sans-serif';
+  g.fillText('الزمن (أيام) →', pad+w-90, pad+h+28);
+  g.save(); g.translate(14,pad+h/2+30); g.rotate(-Math.PI/2); g.fillText('تعداد المستعمرة٪ →',0,0); g.restore();
+  // theoretical smooth curve using first point's T,M as reference
+  if (sorted.length){
+    const {T,M} = sorted[0];
+    g.strokeStyle='#a3e635'; g.lineWidth=2; g.beginPath();
+    for(let d=0; d<=maxDay; d+=0.3){
+      const pop = populationAt(d,T,M);
+      const x = pad + (d/maxDay)*w, y = pad+h-(pop/100)*h;
+      if(d===0) g.moveTo(x,y); else g.lineTo(x,y);
+    }
+    g.stroke();
+  }
+  g.fillStyle='#16a34a';
+  sorted.forEach(p=>{
+    const x = pad + (p.day/maxDay)*w, y = pad+h-(p.pop/100)*h;
+    g.beginPath(); g.arc(x,y,5,0,Math.PI*2); g.fill();
+  });
+}
+(function(){
+  const q = document.getElementById('q2');
+  const opts = q.querySelectorAll('.opt');
+  const fb = q.querySelector('.fb');
+  opts.forEach(o=>o.addEventListener('click',()=>{
+    opts.forEach(x=>x.disabled=true);
+    const correctIdx = 1;
+    const chosen = [...opts].indexOf(o);
+    if(chosen===correctIdx){
+      o.classList.add('correct');
+      fb.className='fb ok'; fb.textContent='✔ صحيح — بعد نفاد الغذاء تدخل المستعمرة الطور الساكن ثم الانحداري.';
+    }else{
+      o.classList.add('wrong'); opts[correctIdx].classList.add('correct');
+      fb.className='fb bad'; fb.textContent='✘ الكمون بداية بلا نمو ملحوظ، واللوغاريتمي هو ذروة النمو السريع — التباطؤ يأتي بعدهما.';
+    }
+    document.getElementById('next2').disabled=false;
+  }));
+})();
+document.getElementById('back2').addEventListener('click',()=>goTo(1));
+document.getElementById('next2').addEventListener('click',()=>{unlocked[3]=true; goTo(3);});
+
+/* ---------------- Stage 4: Elaborate ---------------- */
+const dtSlider = document.getElementById('dtSlider');
+const dmSlider = document.getElementById('dmSlider');
+document.getElementById('dtVal').textContent = dtSlider.value+' °م';
+document.getElementById('dmVal').textContent = dmSlider.value+'٪';
+dtSlider.addEventListener('input',()=>document.getElementById('dtVal').textContent=dtSlider.value+' °م');
+dmSlider.addEventListener('input',()=>document.getElementById('dmVal').textContent=dmSlider.value+'٪');
+
+document.getElementById('testBtn').addEventListener('click',()=>{
+  const T=+dtSlider.value, M=+dmSlider.value;
+  const target=70, tolDays=14;
+  const decomp14 = decompositionAt(tolDays,T,M);
+  const dead = T>72;
+  const fb = document.getElementById('designFb');
+  // draw curve
+  const c = document.getElementById('designGraph'); const g = c.getContext('2d');
+  g.clearRect(0,0,c.width,c.height);
+  const pad=32,w=c.width-pad*2,h=c.height-pad*2;
+  g.strokeStyle='#94a3b8'; g.beginPath(); g.moveTo(pad,pad); g.lineTo(pad,pad+h); g.lineTo(pad+w,pad+h); g.stroke();
+  g.strokeStyle= dead ? '#dc2626' : '#16a34a'; g.lineWidth=2.5; g.beginPath();
+  for(let d=0; d<=14; d+=0.3){
+    const dec = decompositionAt(d,T,M);
+    const x=pad+(d/14)*w, y=pad+h-(dec/100)*h;
+    if(d===0) g.moveTo(x,y); else g.lineTo(x,y);
+  }
+  g.stroke();
+  g.strokeStyle='#f59e0b'; g.setLineDash([4,4]); g.beginPath();
+  g.moveTo(pad, pad+h-(target/100)*h); g.lineTo(pad+w, pad+h-(target/100)*h); g.stroke(); g.setLineDash([]);
+  g.fillStyle='#475569'; g.font='11px sans-serif'; g.fillText('هدف 70٪', pad+4, pad+h-(target/100)*h-6);
+
+  if(dead){
+    fb.className='fb bad';
+    fb.innerHTML = `✘ حرارة ${T}°م قتلت المستعمرة البكتيرية (فوق 70°م تقريبًا) — التحلل توقف عند ${decomp14.toFixed(0)}٪ فقط. خفّض الحرارة.`;
+  } else if(decomp14>=target){
+    fb.className='fb ok';
+    fb.innerHTML = `✔ ممتاز — عند T=${T}°م وM=${M}٪ وصلت نسبة التحلل إلى ${decomp14.toFixed(0)}٪ خلال 14 يومًا، محققًا الهدف.`;
+    document.getElementById('next3').disabled=false;
+  } else {
+    fb.className='fb bad';
+    fb.innerHTML = `✘ نسبة التحلل ${decomp14.toFixed(0)}٪ فقط خلال 14 يومًا — أقل من الهدف. جرّب الاقتراب أكثر من المدى الأمثل (~50–58°م ورطوبة ~55–65٪).`;
+  }
+});
+document.getElementById('back3').addEventListener('click',()=>goTo(2));
+document.getElementById('next3').addEventListener('click',()=>{unlocked[4]=true; buildQuiz(); goTo(4);});
+
+/* ---------------- Stage 5: Evaluate ---------------- */
+const QUIZ = [
+  {level:'تذكر', q:'ما اسم الطور الذي تدخله البكتيريا فور توفر ظروف مثالية، حيث يتضاعف العدد بمعدل ثابت وسريع؟', opts:['طور الكمون','الطور اللوغاريتمي (الأسّي)','الطور الساكن','طور الموت'], c:1},
+  {level:'فهم', q:'لماذا تتوقف الكومة عن التسخين الذاتي عند تجاوز الحرارة 70°م تقريبًا؟', opts:['نفاد الأكسجين فقط','موت البكتيريا الحرارية نفسها بسبب الحرارة المفرطة','زيادة الرطوبة بشكل مفاجئ','تحول المخلفات إلى معادن'], c:1},
+  {level:'تطبيق', q:'إذا سجّلت تعداد مستعمرة 20٪ في اليوم 2 و80٪ في اليوم 5، في أي طور غالبًا كانت خلال هذه الفترة؟', opts:['الكمون','اللوغاريتمي (نمو سريع)','الساكن','الموت'], c:1},
+  {level:'تحليل', q:'كومتان بنفس الرطوبة، إحداهما عند 30°م والأخرى عند 55°م. لماذا تتحلل الثانية أسرع رغم تساوي الرطوبة؟', opts:['لأن 55°م أقرب للمدى الأمثل لنشاط البكتيريا الحرارية', 'لأن الحرارة العالية تبخّر الماء الزائد فقط', 'لا فرق فعلي بينهما', 'لأن البرودة تقتل مسببات الأمراض فقط'], c:0},
+  {level:'تقييم', q:'مزرعة تريد سمادًا جاهزًا خلال أسبوع واحد فقط (لا 14 يومًا). أي قرار هندسي أنسب؟', opts:['خفض الحرارة لأقل من 10°م لإبطاء التحلل والتحكم به','ضبط الحرارة والرطوبة عند القيم المثلى بدقة أكبر ومراقبة يومية لتسريع الدورة قدر الإمكان دون قتل البكتيريا','رفع الحرارة فوق 75°م لتسريع كل شيء','عدم التدخل وترك الكومة على حالها'], c:1},
+];
+let quizScore=0, quizAnswered=0;
+function buildQuiz(){
+  const wrap = document.getElementById('quizWrap'); wrap.innerHTML=''; quizScore=0; quizAnswered=0;
+  document.getElementById('finalBox').style.display='none';
+  QUIZ.forEach((item,qi)=>{
+    const card = document.createElement('div'); card.className='qcard';
+    card.innerHTML = `<div class="qtext">${qi+1}. [${item.level}] ${item.q}</div>` +
+      item.opts.map((o,oi)=>`<button class="opt" data-qi="${qi}" data-oi="${oi}">${o}</button>`).join('') +
+      `<div class="fb"></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const qi=+btn.dataset.qi, oi=+btn.dataset.oi;
+      const card = btn.closest('.qcard');
+      if(card.dataset.done) return;
+      card.dataset.done='1';
+      const opts = card.querySelectorAll('.opt'); opts.forEach(o=>o.disabled=true);
+      const fb = card.querySelector('.fb');
+      quizAnswered++;
+      if(oi===QUIZ[qi].c){
+        btn.classList.add('correct'); quizScore++;
+        fb.className='fb ok'; fb.textContent='✔ إجابة صحيحة';
+      }else{
+        btn.classList.add('wrong'); opts[QUIZ[qi].c].classList.add('correct');
+        fb.className='fb bad'; fb.textContent='✘ الإجابة الصحيحة موضّحة باللون الأخضر';
+      }
+      if(quizAnswered===QUIZ.length) showFinal();
+    });
+  });
+}
+function showFinal(){
+  const pct = Math.round(quizScore/QUIZ.length*100);
+  document.getElementById('finalBox').style.display='block';
+  document.getElementById('finalScore').textContent = pct+'%';
+  document.getElementById('finalTitle').textContent = pct>=80?'أداء ممتاز! 🌱':(pct>=60?'أداء جيد':'يحتاج مراجعة');
+  document.getElementById('finalSub').textContent = `أجبت بشكل صحيح على ${quizScore} من ${QUIZ.length} أسئلة تغطي جميع مستويات بلوم.`;
+}
+document.getElementById('restartBtn').addEventListener('click', buildQuiz);
+</script>
+</body>
+</html>
