@@ -3,530 +3,962 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>معمل البكتيريا النافعة — التحلل والسماد العضوي | مختبر افتراضي تفاعلي</title>
+<title>معمل افتراضي: تحلل المواد العضوية والسماد العضوي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --sky-50:#f0f9ff; --sky-100:#e0f2fe; --sky-200:#bae6fd; --sky-400:#38bdf8;
-    --sky-500:#0ea5e9; --sky-600:#0284c7; --sky-700:#0369a1; --sky-900:#0c4a6e;
-    --slate-50:#f8fafc; --slate-200:#e2e8f0; --slate-400:#94a3b8; --slate-600:#475569; --slate-800:#1e293b;
-    --amber-500:#f59e0b; --amber-100:#fef3c7;
-    --green-500:#16a34a; --green-100:#dcfce7; --green-700:#15803d;
-    --red-500:#dc2626; --red-100:#fee2e2;
-    --lime-500:#65a30d; --lime-100:#ecfccb;
-    --font: -apple-system,BlinkMacSystemFont,"Segoe UI","Tahoma","Cairo",sans-serif;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  body{font-family:var(--font); background:linear-gradient(180deg,var(--green-100),#fff 400px); color:var(--slate-800); line-height:1.7; padding-bottom:60px;}
-  .wrap{max-width:920px; margin:0 auto; padding:20px;}
+:root{
+  --bg:#16130f;
+  --bg2:#1d1811;
+  --panel:#241e16;
+  --panel2:#2b2419;
+  --line:rgba(243,237,228,.14);
+  --soil:#8a5a34;
+  --soil-dim:#5c3c22;
+  --green:#7fae5b;
+  --green-dim:#4f6e3a;
+  --amber:#e79a3f;
+  --teal:#4d9b8e;
+  --text:#f3ede4;
+  --muted:#d8c9ac;
+  --good:#7fbf6b;
+  --bad:#e0645f;
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 700px at 85% -10%, rgba(127,174,91,.15), transparent 60%),
+    radial-gradient(900px 600px at 5% 110%, rgba(231,154,63,.12), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Cairo',sans-serif;
+  line-height:1.7;
+}
+h1,h2,h3,.display{font-family:'Amiri',serif;}
+.mono{font-family:'IBM Plex Mono',monospace; direction:ltr; display:inline-block;}
+a{color:var(--amber);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px;}
 
-  header.top{background:linear-gradient(135deg,var(--green-700),var(--lime-500)); color:#fff; border-radius:18px; padding:28px 30px; margin-bottom:22px; box-shadow:0 10px 30px -12px rgba(21,128,61,.5); position:relative; overflow:hidden;}
-  header.top::after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 85% 20%, rgba(255,255,255,.18), transparent 55%);}
-  header.top .eyebrow{font-size:13px; letter-spacing:.5px; opacity:.85; font-weight:600; position:relative;}
-  header.top h1{font-size:26px; margin-top:6px; position:relative;}
-  header.top p{margin-top:8px; font-size:14.5px; max-width:640px; opacity:.92; position:relative;}
+header.hero{padding:56px 20px 40px;border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+header.hero::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    radial-gradient(3px 3px at 20% 30%, rgba(127,174,91,.35), transparent 60%),
+    radial-gradient(4px 4px at 70% 60%, rgba(231,154,63,.35), transparent 60%),
+    radial-gradient(2px 2px at 40% 80%, rgba(77,155,142,.3), transparent 60%),
+    radial-gradient(3px 3px at 85% 20%, rgba(127,174,91,.3), transparent 60%);
+  pointer-events:none;
+}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;letter-spacing:.06em;color:var(--amber);
+  background:rgba(231,154,63,.09);border:1px solid rgba(231,154,63,.35);
+  padding:5px 12px;border-radius:100px;direction:rtl;
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);}
+h1.title{font-size:clamp(28px,4.2vw,44px);margin:18px 0 10px;font-weight:700;color:#fff;}
+h1.title em{font-style:normal;color:var(--green);}
+.subtitle{color:var(--muted);max-width:760px;font-size:16.5px;}
+.meta-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:14px;}
+.meta-row b{color:var(--text);font-weight:700;}
 
-  .stepper{display:flex; justify-content:space-between; margin:26px 0 24px; position:relative;}
-  .stepper::before{content:""; position:absolute; top:17px; right:5%; left:5%; height:3px; background:var(--slate-200); z-index:0;}
-  .step{position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:6px; flex:1;}
-  .step .dot{width:36px; height:36px; border-radius:50%; background:#fff; border:3px solid var(--slate-200); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--slate-400); font-size:14px; transition:.25s;}
-  .step .lbl{font-size:11.5px; color:var(--slate-600); font-weight:600; text-align:center;}
-  .step.active .dot{border-color:var(--green-500); color:var(--green-700); background:var(--green-100); box-shadow:0 0 0 5px var(--lime-100);}
-  .step.done .dot{border-color:var(--green-500); background:var(--green-500); color:#fff;}
-  .step.done .lbl, .step.active .lbl{color:var(--slate-800);}
+.stepper{position:sticky;top:0;z-index:50;background:rgba(22,19,15,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.stepper-track{max-width:1180px;margin:0 auto;display:flex;overflow-x:auto;gap:2px;padding:0 20px;}
+.step-btn{flex:1 1 auto;min-width:150px;background:none;border:none;color:var(--muted);font-family:'Cairo',sans-serif;font-weight:700;font-size:14px;padding:16px 10px;cursor:pointer;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s;}
+.step-btn .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);}
+.step-btn.active{color:#fff;border-bottom-color:var(--amber);}
+.step-btn.active .num{color:var(--amber);}
+.step-btn:hover{color:#fff;}
+.step-btn.locked{opacity:.4;cursor:not-allowed;}
+.step-btn.locked:hover{color:var(--muted);}
 
-  .panel{display:none; background:#fff; border:1px solid var(--slate-200); border-radius:16px; padding:26px; box-shadow:0 4px 18px -8px rgba(15,23,42,.12); animation:fade .35s ease;}
-  .panel.show{display:block;}
-  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+section.stage{display:none;padding-top:44px;animation:fadeIn .4s ease;}
+section.stage.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.stage-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+.stage-tag{font-family:'IBM Plex Mono',monospace;color:var(--green);font-size:13px;letter-spacing:.05em;}
+.stage-head h2{font-size:28px;margin:0;color:#fff;}
+.stage-desc{color:var(--muted);max-width:820px;margin-bottom:30px;font-size:15.5px;}
 
-  .tag{display:inline-block; font-size:11.5px; font-weight:700; padding:4px 11px; border-radius:99px; background:var(--green-100); color:var(--green-700); margin-bottom:10px;}
-  h2.stage-title{font-size:20px; color:var(--green-700); margin-bottom:4px;}
-  .sub{color:var(--slate-600); font-size:14px; margin-bottom:18px;}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:22px;}
+.card h3{margin-top:0;color:#fff;font-size:19px;}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media (max-width:880px){.grid2,.grid3{grid-template-columns:1fr;}}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:12px;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);color:var(--muted);}
 
-  .story{background:var(--green-100); border-right:4px solid var(--green-500); padding:16px 18px; border-radius:10px; font-size:14.5px; color:var(--slate-800); margin-bottom:20px;}
-  .story b{color:var(--green-700);}
+.scenario-card{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.scenario-icon{width:64px;height:64px;flex:none;border-radius:50%;background:radial-gradient(circle at 35% 30%, #b98a52, var(--soil-dim));border:2px solid var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.tissue-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+.pill{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);font-size:14px;color:var(--muted);}
 
-  .qcard{border:1px solid var(--slate-200); border-radius:12px; padding:16px 18px; margin-bottom:14px; background:var(--slate-50);}
-  .qcard .qtext{font-weight:700; margin-bottom:10px; font-size:14.5px;}
-  .opt{display:block; width:100%; text-align:right; background:#fff; border:1.5px solid var(--slate-200); border-radius:9px; padding:10px 14px; margin-bottom:8px; cursor:pointer; font-size:14px; font-family:inherit; transition:.15s;}
-  .opt:hover{border-color:var(--green-400,var(--green-500));}
-  .opt.correct{border-color:var(--green-500); background:var(--green-100);}
-  .opt.wrong{border-color:var(--red-500); background:var(--red-100);}
-  .opt:disabled{cursor:default;}
-  .fb{margin-top:10px; padding:10px 12px; border-radius:8px; font-size:13.5px; display:none;}
-  .fb.ok{display:block; background:var(--green-100); color:#14532d; border:1px solid #86efac;}
-  .fb.bad{display:block; background:var(--red-100); color:#7f1d1d; border:1px solid #fca5a5;}
+.scope-layout{display:grid;grid-template-columns:460px 1fr;gap:26px;align-items:start;}
+@media (max-width:960px){.scope-layout{grid-template-columns:1fr;}}
+.scope-stand{background:radial-gradient(120% 100% at 50% 0%, #2c2417, #16130f 75%);border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;align-items:center;}
+.bin-view{position:relative;width:100%;max-width:380px;height:230px;border-radius:16px;overflow:hidden;background:#0c0a08;box-shadow:inset 0 0 0 6px #0c0a08, inset 0 0 40px 10px rgba(0,0,0,.7), 0 0 0 3px var(--green-dim);}
+.bin-view canvas{position:absolute;inset:0;width:100%;height:100%;}
+.chart-view{width:100%;max-width:380px;height:150px;border-radius:12px;overflow:hidden;background:#0c0a08;border:1px solid var(--line);margin-top:14px;}
+.chart-view canvas{width:100%;height:100%;display:block;}
+.readout{margin-top:16px;width:100%;max-width:380px;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--muted);}
+.readout b{color:var(--amber);display:block;font-size:16px;}
+.controls{display:flex;flex-direction:column;gap:18px;}
+.control-block label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:6px;}
+.control-block label span.val{color:var(--amber);font-family:'IBM Plex Mono',monospace;}
+input[type=range]{width:100%;accent-color:var(--green);}
+select, textarea, input[type=text]{width:100%;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.25);color:var(--text);border:1px solid var(--line);font-family:'Cairo',sans-serif;font-size:14.5px;}
+.btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;border:1px solid var(--green-dim);background:var(--green-dim);color:#fff;padding:11px 20px;border-radius:10px;font-weight:700;font-size:14.5px;font-family:'Cairo',sans-serif;transition:.15s;}
+.btn:hover{background:var(--green);box-shadow:0 0 0 3px rgba(127,174,91,.25);}
+.btn.secondary{background:transparent;color:var(--amber);border-color:var(--soil-dim);}
+.btn.secondary:hover{background:rgba(231,154,63,.1);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+table.log{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;}
+table.log th,table.log td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right;}
+table.log th{color:var(--amber);font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;}
 
-  .btn{background:var(--green-600,#16a34a); color:#fff; border:none; padding:11px 22px; border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit; transition:.15s;}
-  .btn:hover{background:var(--green-700);}
-  .btn:disabled{background:var(--slate-200); color:var(--slate-400); cursor:not-allowed;}
-  .btn.ghost{background:#fff; color:var(--green-700); border:1.5px solid var(--green-200,var(--green-100));}
-  .btn.small{padding:7px 14px; font-size:12.5px; border-radius:8px;}
-  .nav-row{display:flex; justify-content:space-between; margin-top:22px; gap:10px;}
+.formula-box{background:rgba(0,0,0,.25);border:1px solid var(--green-dim);border-radius:12px;padding:16px 18px;font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:15.5px;text-align:center;margin:14px 0;direction:ltr;}
+.check-q{border-top:1px dashed var(--line);padding-top:18px;margin-top:18px;}
+.check-q p.q{font-weight:700;color:#fff;margin-bottom:10px;}
+.opt-btn{display:block;width:100%;text-align:right;margin-bottom:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;font-family:'Cairo',sans-serif;}
+.opt-btn:hover{border-color:var(--green);}
+.opt-btn.correct{background:rgba(127,191,107,.15);border-color:var(--good);color:var(--good);}
+.opt-btn.wrong{background:rgba(224,100,95,.15);border-color:var(--bad);color:var(--bad);}
+.feedback{margin-top:10px;font-size:14px;color:var(--muted);display:none;}
+.feedback.show{display:block;}
 
-  .lab-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:20px;}
-  @media(max-width:760px){.lab-grid{grid-template-columns:1fr;}}
-  .ctrl-box{background:var(--slate-50); border:1px solid var(--slate-200); border-radius:12px; padding:16px;}
-  .ctrl-box label{font-size:13px; font-weight:700; display:flex; justify-content:space-between; margin-bottom:6px;}
-  .ctrl-box label span.val{color:var(--green-700);}
-  input[type=range]{width:100%; accent-color:#16a34a; margin-bottom:16px;}
-  canvas#dish{width:100%; background:#1c1917; border-radius:10px; border:1px solid var(--slate-200);}
-  .readouts{display:flex; gap:10px; margin-top:12px;}
-  .ro{flex:1; text-align:center; background:#fff; border:1px solid var(--slate-200); border-radius:10px; padding:10px 6px;}
-  .ro .n{font-size:17px; font-weight:800; color:var(--green-700);}
-  .ro .l{font-size:11px; color:var(--slate-600);}
+.slides-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:960px){.slides-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.slides-grid{grid-template-columns:1fr;}}
+.slide-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;}
+.slide-card .num{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:12px;margin-bottom:8px;}
+.case-desc{background:rgba(0,0,0,.2);border-radius:8px;padding:10px 12px;font-size:14px;color:var(--muted);margin-bottom:10px;}
+.feat-list{margin:10px 0;display:flex;flex-direction:column;gap:6px;}
+.feat-list label{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);cursor:pointer;}
+.feat-list input{accent-color:var(--amber);}
+.slide-result{margin-top:10px;font-size:13px;padding:8px 10px;border-radius:8px;display:none;}
+.slide-result.show{display:block;}
+.slide-result.ok{background:rgba(127,191,107,.12);color:var(--good);}
+.slide-result.no{background:rgba(224,100,95,.12);color:var(--bad);}
 
-  table.dtab{width:100%; border-collapse:collapse; font-size:13px; margin-top:12px;}
-  table.dtab th, table.dtab td{border:1px solid var(--slate-200); padding:7px 8px; text-align:center;}
-  table.dtab th{background:var(--green-100); color:var(--green-700);}
-  canvas#graph{width:100%; background:#fff; border:1px solid var(--slate-200); border-radius:10px; margin-top:10px;}
-
-  .badge-final{text-align:center; padding:30px 10px;}
-  .badge-final .circle{width:96px; height:96px; border-radius:50%; background:linear-gradient(135deg,var(--green-500),var(--green-700)); margin:0 auto 14px; display:flex; align-items:center; justify-content:center; color:#fff; font-size:30px; font-weight:800; box-shadow:0 8px 24px -8px rgba(21,128,61,.5);}
-  .note{font-size:12.5px; color:var(--slate-600); background:var(--amber-100); border-right:3px solid var(--amber-500); padding:8px 12px; border-radius:8px; margin-top:12px;}
+.crit-list{list-style:none;padding:0;margin:10px 0;}
+.crit-list li{padding:8px 4px;border-bottom:1px dashed var(--line);font-size:14.5px;color:var(--muted);}
+.crit-list li::before{content:"◆ ";color:var(--amber);}
+.score-banner{text-align:center;padding:26px;border-radius:14px;background:linear-gradient(135deg, rgba(127,174,91,.18), rgba(231,154,63,.14));border:1px solid var(--green-dim);}
+.score-banner .big{font-family:'IBM Plex Mono',monospace;font-size:44px;color:var(--amber);}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:30px 0;}
+.locked-msg{color:var(--muted);font-size:14px;background:rgba(0,0,0,.2);padding:12px 14px;border-radius:10px;border:1px dashed var(--line);}
+.video-embed{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:12px;border:1px solid var(--green-dim);margin:14px 0;}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.data-table{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0;}
+.data-table th,.data-table td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:center;}
+.data-table th{color:var(--amber);font-family:'IBM Plex Mono',monospace;font-size:12px;}
 </style>
 </head>
 <body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow"><span class="dot"></span> معمل مهارات علمية افتراضي — قسم الأحياء</span>
+    <h1 class="title">تحلل المواد العضوية <em>والسماد العضوي</em></h1>
+    <p class="subtitle">تجربة تفاعلية وفق نموذج التعلّم الخماسي (5E) لفهم دور البكتيريا النافعة في تحويل المخلفات العضوية إلى سماد (كمبوست) عبر مراحله الحرارية الثلاث، دون الحاجة لأي معمل فعلي.</p>
+    <div class="meta-row">
+      <span>⏱️ <b>~40–55 دقيقة</b></span>
+      <span>🎯 <b>الهدف:</b> تشخيص مشكلة في كومة سماد عضوي وإصلاحها بثقة علمية</span>
+      <span>🦠 <b>الوسيلة:</b> محاكاة كومة سماد تفاعلية تعمل داخل المتصفح</span>
+    </div>
+  </div>
+</header>
+
+<nav class="stepper">
+  <div class="stepper-track" id="stepperTrack">
+    <button class="step-btn active" data-stage="0"><span class="num">01 · الإثارة</span> مشكلة في الحقل</button>
+    <button class="step-btn locked" data-stage="1"><span class="num">02 · الاستكشاف 🔒</span> محاكاة كومة السماد</button>
+    <button class="step-btn locked" data-stage="2"><span class="num">03 · الشرح 🔒</span> مراحل التحلل الحيوي</button>
+    <button class="step-btn locked" data-stage="3"><span class="num">04 · التوسّع 🔒</span> تشخيص 6 حالات</button>
+    <button class="step-btn locked" data-stage="4"><span class="num">05 · التقييم 🔒</span> كومة المزرعة الغامضة</button>
+  </div>
+</nav>
+
 <div class="wrap">
 
-  <header class="top">
-    <div class="eyebrow">مختبر افتراضي تفاعلي · تصميم قائم على الاستقصاء</div>
-    <h1>معمل البكتيريا النافعة — كومة السماد الذكية</h1>
-    <p>محاكاة حيّة لمنحنى نمو المستعمرات البكتيرية أثناء تحلّل المخلفات العضوية، بقرارات هندسية-بيئية حقيقية وتغذية راجعة فورية.</p>
-  </header>
+<!-- ===================== STAGE 0 : ENGAGE ===================== -->
+<section class="stage active" id="stage0">
+  <div class="stage-head"><span class="stage-tag">STAGE 01 / ENGAGE</span><h2>مشكلة حقيقية من مزرعة تعليمية</h2></div>
+  <p class="stage-desc">اقرأ الموقف، وحاول أن تخمّن السبب الأرجح قبل أن تلمس المحاكاة — سنعود إلى تخمينك لاحقًا.</p>
 
-  <div class="stepper" id="stepper"></div>
+  <div class="card scenario-card">
+    <div class="scenario-icon">🌱</div>
+    <div>
+      <h3>مزرعة القسم التعليمية — كومة السماد رقم 3</h3>
+      <p>أنشأ طلاب قسم الأحياء كومة سماد عضوي من بقايا مطبخ وأوراق جافة قبل 4 أيام، متوقّعين أن ترتفع حرارتها بسرعة كما تعلّموا نظريًا. لكن عند القياس، ما زالت الحرارة قريبة من حرارة الجو المحيط، وبدأت رائحة كريهة تشبه رائحة الأمونيا تنبعث من الكومة.</p>
+      <p>قبل أن يقترح الطلاب حلًا، عليهم فهم العوامل التي تتحكم في نشاط البكتيريا المحلِّلة للمواد العضوية: نسبة الكربون إلى النيتروجين (C:N)، الرطوبة، والتهوية.</p>
+      <div class="tissue-pills">
+        <span class="pill">🌡️ المرحلة الميزوفيلية (20–45°م)</span>
+        <span class="pill">🔥 المرحلة الحرارية (45–65°م)</span>
+        <span class="pill">🍂 مرحلة النضج والدبال</span>
+      </div>
+    </div>
+  </div>
 
-  <!-- STAGE 1 : ENGAGE -->
-  <section class="panel" id="stage-0">
-    <span class="tag">المرحلة 1 · الإثارة (Engage)</span>
-    <h2 class="stage-title">مشكلة حقيقية بانتظار حل</h2>
-    <p class="sub">ناتج التعلم: تذكّر دور البكتيريا النافعة في التحلل (Remember / Understand)</p>
-    <div class="story">
-      أنت فني زراعي في مزرعة تجريبية تابعة للجامعة. لدى المزرعة كومة مخلفات عضوية (بقايا نباتية) تحتاج تحويلها
-      إلى سماد غني خلال أسبوعين فقط قبل موسم الزراعة. المشرف يطلب منك أولًا أن تثبت فهمك لكيفية عمل
-      <b>البكتيريا النافعة</b> قبل أن يسلّمك مسؤولية ضبط الكومة الحقيقية.
-    </div>
-    <div class="qcard" id="q0">
-      <div class="qtext">ما الدور الأساسي للبكتيريا النافعة في عملية التسميد العضوي (Composting)؟</div>
-      <button class="opt" data-c="0">تفكيك المركبات العضوية المعقدة إلى مواد بسيطة يمتصها التربة والنبات</button>
-      <button class="opt" data-c="1">إنتاج الأكسجين اللازم لنمو النبات مباشرة</button>
-      <button class="opt" data-c="0">تلوين المخلفات العضوية لتسهيل فرزها</button>
-      <div class="fb"></div>
-    </div>
-    <div class="nav-row">
-      <span></span>
-      <button class="btn" id="next0" disabled>ابدأ الاستكشاف →</button>
-    </div>
-  </section>
+  <div class="card">
+    <h3>خمّن أولًا</h3>
+    <p style="color:var(--muted)">ما السبب الأرجح لعدم ارتفاع الحرارة مع وجود رائحة أمونيا نفاذة؟</p>
+    <div id="guessOptions"></div>
+    <p id="guessNote" style="color:var(--muted);font-size:13.5px;display:none;">✓ تم تسجيل تخمينك. انتقل الآن إلى محاكاة كومة السماد لاختبار الفرضية بنفسك.</p>
+  </div>
 
-  <!-- STAGE 2 : EXPLORE -->
-  <section class="panel" id="stage-1">
-    <span class="tag">المرحلة 2 · الاستكشاف (Explore)</span>
-    <h2 class="stage-title">شغّل الكومة وراقب نمو المستعمرة</h2>
-    <p class="sub">ناتج التعلم: تطبيق العلاقة بين الحرارة والرطوبة ونشاط البكتيريا (Apply)</p>
-    <div class="story">
-      حرّك مقياسي الحرارة والرطوبة وراقب تكاثر البكتيريا داخل الكومة حيًا. <b>منهجية مقترحة:</b> ابدأ بتشغيل الزمن
-      المتسارع (▶) عند إعداد معيّن، وسجّل تعداد المستعمرة كل عدة "أيام" لتحصل على منحنى نمو كامل تحلّله لاحقًا.
+  <button class="btn" onclick="goToStage(1)">ابدأ باستكشاف المحاكاة ⟵</button>
+</section>
+
+<!-- ===================== STAGE 1 : EXPLORE ===================== -->
+<section class="stage" id="stage1">
+  <div class="stage-head"><span class="stage-tag">STAGE 02 / EXPLORE</span><h2>محاكاة كومة السماد العضوي</h2></div>
+  <p class="stage-desc">اضبط نسبة C:N والرطوبة والتهوية وحجم الكومة، وحرّك شريط "اليوم" لترى كيف تتغيّر الحرارة والمرحلة السائدة والبكتيريا النشطة عبر الزمن.</p>
+
+  <div class="scope-layout">
+    <div class="scope-stand">
+      <div class="bin-view"><canvas id="binCanvas1" width="380" height="230"></canvas></div>
+      <div class="chart-view"><canvas id="chartCanvas1" width="380" height="150"></canvas></div>
+      <div class="readout" id="readout1"></div>
     </div>
-    <div class="lab-grid">
+
+    <div class="controls">
+      <div class="card" style="margin-bottom:0;">
+        <div class="control-block">
+          <label>نسبة الكربون : النيتروجين (C:N) <span class="val" id="cnVal1">27</span></label>
+          <input type="range" min="15" max="45" value="27" id="cnSlider1">
+        </div>
+        <div class="control-block">
+          <label>الرطوبة (%) <span class="val" id="moistVal1">55</span></label>
+          <input type="range" min="20" max="85" value="55" id="moistSlider1">
+        </div>
+        <div class="control-block">
+          <label>اليوم <span class="val" id="dayVal1">0</span></label>
+          <input type="range" min="0" max="30" value="0" id="daySlider1">
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:0;">
+        <div class="control-block">
+          <label>التهوية / القلب</label>
+          <select id="aerationSelect1">
+            <option value="none">بدون قلب (لا هوائي)</option>
+            <option value="weekly" selected>قلب أسبوعي</option>
+            <option value="daily">قلب يومي (تهوية ممتازة)</option>
+          </select>
+        </div>
+        <div class="control-block">
+          <label>حجم الكومة</label>
+          <select id="sizeSelect1">
+            <option value="small">صغيرة (&lt;0.5 م³)</option>
+            <option value="medium" selected>متوسطة (~1 م³)</option>
+            <option value="large">كبيرة (&gt;1.5 م³)</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;">
+          <button class="btn" onclick="randomizeScenario()">🎲 سيناريو عشوائي</button>
+          <button class="btn secondary" onclick="logCurrentView()">📋 سجّل هذه القراءة</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>سجلّ الملاحظات</h3>
+    <p style="color:var(--muted);font-size:14px;">سجّل قراءات مختلفة لترى بنفسك أثر كل عامل على ذروة الحرارة والمرحلة السائدة.</p>
+    <table class="log" id="logTable">
+      <thead><tr><th>#</th><th>C:N</th><th>رطوبة</th><th>تهوية</th><th>حجم</th><th>اليوم</th><th>الحرارة</th><th>المرحلة</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <button class="btn" onclick="goToStage(2)">تابع إلى شرح مراحل التحلل ⟵</button>
+</section>
+
+<!-- ===================== STAGE 2 : EXPLAIN ===================== -->
+<section class="stage" id="stage2">
+  <div class="stage-head"><span class="stage-tag">STAGE 03 / EXPLAIN</span><h2>فيزيولوجيا التحلل الحيوي للسماد</h2></div>
+  <p class="stage-desc">الآن بعد أن جرّبت المحاكاة عمليًا، دعنا نُرسّخ المفاهيم العلمية التي شاهدتها للتو.</p>
+
+  <div class="card">
+    <h3>🎬 فيديو حقيقي مصوّر داخل المعمل</h3>
+    <p style="color:var(--muted);font-size:14px;">مقطع حقيقي (مجاني، بلا إعلانات) يشرح أهمية نسبة C:N عمليًا داخل كومة سماد فعلية:</p>
+    <div class="video-embed">
+      <iframe src="https://player.vimeo.com/video/13189294" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>1) معادلة التحلل الحيوي المبسّطة</h3>
+      <div class="formula-box">Fresh Organic Matter + Bacteria &rarr; Heat + CO2 + Intermediate Compounds</div>
+      <p style="color:var(--muted);font-size:14px;">مع تقدّم التحلل، تتكسّر المركبات الوسيطة تدريجيًا حتى تتكوّن مادة داكنة مستقرة تُسمّى <b>الدبال (Humus)</b>.</p>
+    </div>
+    <div class="card">
+      <h3>2) العوامل الحرجة الثلاثة</h3>
+      <ul class="crit-list">
+        <li>نسبة C:N المثلى ≈ 25–30 : 1</li>
+        <li>الرطوبة المثلى ≈ 50–60٪ (كإسفنجة معصورة قليلًا)</li>
+        <li>التهوية الكافية لتغذية البكتيريا الهوائية ومنع الرائحة الكريهة</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>3) المراحل الحرارية الثلاث</h3>
+    <div class="grid3">
       <div>
-        <canvas id="dish" width="440" height="220"></canvas>
-        <div class="readouts">
-          <div class="ro"><div class="n" id="roDay">0</div><div class="l">اليوم</div></div>
-          <div class="ro"><div class="n" id="roPop">0</div><div class="l">تعداد المستعمرة (٪ من الحد الأقصى)</div></div>
-          <div class="ro"><div class="n" id="roDecomp">0٪</div><div class="l">نسبة التحلل</div></div>
-        </div>
+        <p class="badge">20–45°م</p>
+        <h3 style="font-size:16px;">ميزوفيلية</h3>
+        <p style="color:var(--muted);font-size:14px;">بكتيريا معتدلة الحرارة (مثل <i>Pseudomonas</i>) تبدأ بتحليل السكريات والبروتينات البسيطة، فترتفع الحرارة تدريجيًا.</p>
       </div>
-      <div class="ctrl-box">
-        <label>الحرارة T <span class="val" id="tVal">30 °م</span></label>
-        <input type="range" id="tSlider" min="0" max="80" step="1" value="30">
-        <label>الرطوبة M <span class="val" id="mVal">40٪</span></label>
-        <input type="range" id="mSlider" min="0" max="100" step="5" value="40">
-        <div style="display:flex; gap:8px; margin-bottom:10px;">
-          <button class="btn small" id="playBtn">▶ تشغيل الزمن</button>
-          <button class="btn ghost small" id="recordBtn">＋ تسجيل قراءة</button>
-          <button class="btn ghost small" id="resetBtn">↺ إعادة</button>
-        </div>
-        <div class="note" id="tableHint">سجّل 5 قراءات على الأقل عبر مراحل زمنية مختلفة لتفعيل مرحلة التحليل.</div>
-        <table class="dtab" id="dataTable">
-          <thead><tr><th>#</th><th>اليوم</th><th>T°م</th><th>رطوبة٪</th><th>تعداد٪</th></tr></thead>
-          <tbody></tbody>
-        </table>
+      <div>
+        <p class="badge">45–65°م</p>
+        <h3 style="font-size:16px;">حرارية (ذروة)</h3>
+        <p style="color:var(--muted);font-size:14px;">بكتيريا محبة للحرارة (مثل <i>Bacillus</i>) تكسّر الدهون والبروتينات المعقّدة؛ هذه الحرارة العالية تقتل مسبّبات الأمراض وبذور الأعشاب الضارة أيضًا.</p>
+      </div>
+      <div>
+        <p class="badge">تنخفض تدريجيًا</p>
+        <h3 style="font-size:16px;">النضج والدبال</h3>
+        <p style="color:var(--muted);font-size:14px;">تقلّ المواد سهلة التحلل، فتهيمن الفطريات والأكتينوميستات وتتكوّن مادة الدبال المستقرة الداكنة اللون.</p>
       </div>
     </div>
-    <div class="nav-row">
-      <button class="btn ghost" id="back1">← رجوع</button>
-      <button class="btn" id="next1" disabled>حلّل بياناتك →</button>
-    </div>
-  </section>
+  </div>
 
-  <!-- STAGE 3 : EXPLAIN -->
-  <section class="panel" id="stage-2">
-    <span class="tag">المرحلة 3 · التفسير (Explain)</span>
-    <h2 class="stage-title">اقرأ منحنى النمو البكتيري</h2>
-    <p class="sub">ناتج التعلم: تحليل بيانات النمو وتحديد مراحله الأربع (Analyze)</p>
-    <canvas id="graph" width="820" height="260"></canvas>
-    <div class="qcard" id="q2">
-      <div class="qtext">بالنظر إلى منحنى قراءاتك، أي طور يمثل الفترة التي يتباطأ فيها النمو بعد ذروته بسبب نفاد الغذاء وتراكم الفضلات؟</div>
-      <button class="opt" data-c="0">طور الكمون (Lag)</button>
-      <button class="opt" data-c="0">الطور اللوغاريتمي (Log)</button>
-      <button class="opt" data-c="1">الطور الساكن ثم الانحداري (Stationary → Death)</button>
-      <div class="fb"></div>
+  <div class="card">
+    <h3>تحقّق من فهمك</h3>
+    <div class="check-q">
+      <p class="q">1) ما نسبة C:N المثالية تقريبًا لبدء تسميد فعّال؟</p>
+      <button class="opt-btn" data-correct="false">5 : 1</button>
+      <button class="opt-btn" data-correct="true">27 : 1</button>
+      <button class="opt-btn" data-correct="false">80 : 1</button>
+      <div class="feedback"></div>
     </div>
-    <div class="nav-row">
-      <button class="btn ghost" id="back2">← رجوع للاستكشاف</button>
-      <button class="btn" id="next2" disabled>التالي: تحدي التصميم →</button>
+    <div class="check-q">
+      <p class="q">2) لماذا تُعدّ المرحلة الحرارية (45–65°م) مفيدة صحيًا وليست خطرًا فقط؟</p>
+      <button class="opt-btn" data-correct="false">لأنها تُبطئ التحلل عمدًا</button>
+      <button class="opt-btn" data-correct="true">لأن الحرارة العالية تقتل مسبّبات الأمراض وبذور الأعشاب الضارة</button>
+      <button class="opt-btn" data-correct="false">لأنها تمنع تكوّن الدبال</button>
+      <div class="feedback"></div>
     </div>
-  </section>
+    <div class="check-q">
+      <p class="q">3) ما الذي يسبّب رائحة الأمونيا النفاذة عادة؟</p>
+      <button class="opt-btn" data-correct="false">نسبة C:N مرتفعة جدًا (كربون زائد)</button>
+      <button class="opt-btn" data-correct="true">نسبة C:N منخفضة جدًا (نيتروجين زائد)</button>
+      <button class="opt-btn" data-correct="false">رطوبة منخفضة جدًا</button>
+      <div class="feedback"></div>
+    </div>
+  </div>
 
-  <!-- STAGE 4 : ELABORATE -->
-  <section class="panel" id="stage-3">
-    <span class="tag">المرحلة 4 · التوسّع (Elaborate)</span>
-    <h2 class="stage-title">تحدي المزرعة: سماد جاهز خلال 14 يومًا</h2>
-    <p class="sub">ناتج التعلم: تصميم ظروف بيئية تحقق هدف تحلل محدد بأمان (Create / Evaluate)</p>
-    <div class="story">
-      يحتاج الموسم الزراعي القادم كومة سماد <b>تصل لنسبة تحلل 70٪ فأكثر خلال 14 يومًا</b>، دون قتل البكتيريا
-      بحرارة مفرطة. اختر إعدادي الحرارة والرطوبة، ثم شغّل المحاكاة السريعة.
-    </div>
-    <div class="lab-grid">
-      <div class="ctrl-box">
-        <label>الحرارة المختارة T <span class="val" id="dtVal">55 °م</span></label>
-        <input type="range" id="dtSlider" min="0" max="80" step="1" value="55">
-        <label>الرطوبة المختارة M <span class="val" id="dmVal">55٪</span></label>
-        <input type="range" id="dmSlider" min="0" max="100" step="5" value="55">
-        <button class="btn small" id="testBtn">▶ اختبر التصميم (محاكاة 14 يومًا)</button>
-        <div class="fb" id="designFb"></div>
-      </div>
-      <canvas id="designGraph" width="380" height="220" style="background:#fff;border:1px solid var(--slate-200);border-radius:10px;"></canvas>
-    </div>
-    <div class="nav-row">
-      <button class="btn ghost" id="back3">← رجوع</button>
-      <button class="btn" id="next3" disabled>إنهاء المعمل: التقييم النهائي →</button>
-    </div>
-  </section>
+  <button class="btn" onclick="goToStage(3)">تابع إلى تشخيص الحالات ⟵</button>
+</section>
 
-  <!-- STAGE 5 : EVALUATE -->
-  <section class="panel" id="stage-4">
-    <span class="tag">المرحلة 5 · التقييم (Evaluate)</span>
-    <h2 class="stage-title">تقييم ختامي</h2>
-    <p class="sub">يغطي هذا التقييم كل مستويات بلوم من التذكر إلى التقييم</p>
-    <div id="quizWrap"></div>
-    <div class="badge-final" id="finalBox" style="display:none;">
-      <div class="circle" id="finalScore">–</div>
-      <h3 id="finalTitle">أحسنت!</h3>
-      <p class="sub" id="finalSub"></p>
-      <button class="btn ghost small" id="restartBtn">إعادة المحاولة لإتقان أعلى</button>
+<!-- ===================== STAGE 3 : ELABORATE ===================== -->
+<section class="stage" id="stage3">
+  <div class="stage-head"><span class="stage-tag">STAGE 04 / ELABORATE</span><h2>شخّص 6 حالات ميدانية</h2></div>
+  <p class="stage-desc">اقرأ أعراض كل كومة سماد، حدّد السبب الأرجح، ثم اختر الملاحظات الداعمة المناسبة. ستحصل على تغذية راجعة فورية.</p>
+
+  <div class="slides-grid" id="casesGrid"></div>
+
+  <div class="card" style="margin-top:22px;">
+    <button class="btn" onclick="gradeAllCases()">✔️ تحقّق من كل تشخيصاتي</button>
+    <span id="casesScoreMsg" style="margin-right:14px;color:var(--muted);font-size:14px;"></span>
+  </div>
+
+  <button class="btn" onclick="goToStage(4)">تابع إلى كومة المزرعة الغامضة ⟵</button>
+</section>
+
+<!-- ===================== STAGE 4 : EVALUATE ===================== -->
+<section class="stage" id="stage4">
+  <div class="stage-head"><span class="stage-tag">STAGE 05 / EVALUATE</span><h2>تحدّي التقييم: كومة المزرعة الغامضة</h2></div>
+  <p class="stage-desc">هذه بيانات ميدانية حقيقية من كومة سماد في مزرعة تجريبية. عليك تحليلها وتشخيص المشكلة وتبرير تشخيصك بثلاث ملاحظات على الأقل.</p>
+
+  <div class="card">
+    <h3>معايير النجاح في هذا التحدّي</h3>
+    <ul class="crit-list">
+      <li>قراءة جدول بيانات الحرارة اليومية بعناية.</li>
+      <li>ربط نمط الحرارة والرائحة والرطوبة بالسبب الأرجح.</li>
+      <li>اختيار التشخيص الصحيح من القائمة.</li>
+      <li>تحديد 3 ملاحظات داعمة صحيحة على الأقل من القائمة.</li>
+      <li>كتابة إجراء تصحيحي مقترح بأسلوبك الخاص.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>البيانات الميدانية</h3>
+    <table class="data-table">
+      <thead><tr><th>اليوم</th><th>1</th><th>3</th><th>5</th><th>7</th><th>10</th></tr></thead>
+      <tbody><tr><td>الحرارة (°م)</td><td id="mtd1"></td><td id="mtd2"></td><td id="mtd3"></td><td id="mtd4"></td><td id="mtd5"></td></tr></tbody>
+    </table>
+    <p style="color:var(--muted);font-size:14px;">الرطوبة المقاسة: <b class="mono" id="mMoist"></b> — الرائحة الملاحظة: <b id="mSmell"></b> — نسبة C:N التقريبية للمزيج المستخدم: <b class="mono" id="mCN"></b></p>
+  </div>
+
+  <div class="card" id="classifyForm">
+    <h3>تشخيصك النهائي</h3>
+    <div>
+      <select id="finalTissueSelect">
+        <option value="">— اختر السبب الأرجح —</option>
+        <option value="noaeration">نقص التهوية (حالة لا هوائية)</option>
+        <option value="dry">نقص الرطوبة (جفاف)</option>
+        <option value="lowCN">نسبة C:N منخفضة جدًا (نيتروجين زائد)</option>
+        <option value="highCN">نسبة C:N مرتفعة جدًا (كربون زائد)</option>
+        <option value="normal">سلوك طبيعي، لا مشكلة</option>
+      </select>
     </div>
-  </section>
+    <p style="margin-top:14px;color:var(--muted);font-size:14px;">حدّد الملاحظات الداعمة لتشخيصك (اختر 3 على الأقل):</p>
+    <div class="feat-list" id="finalFeatList"></div>
+    <p style="margin-top:10px;color:var(--muted);font-size:14px;">اقترح إجراءً تصحيحيًا بجملة أو جملتين:</p>
+    <textarea id="finalJustify" rows="3" placeholder="مثال: أقترح قلب الكومة يوميًا لتحسين التهوية وتقليل الرطوبة الزائدة..."></textarea>
+    <button class="btn" style="margin-top:14px;" onclick="submitFinalClassification()">إرسال التشخيص النهائي</button>
+    <div class="slide-result" id="finalResult"></div>
+  </div>
+
+  <div class="card" id="quizCard" style="display:none;">
+    <h3>اختبار ختامي — مستويات تصنيف بلوم</h3>
+    <div id="quizContainer"></div>
+    <button class="btn" style="margin-top:10px;" onclick="gradeQuiz()">إنهاء الاختبار وعرض النتيجة</button>
+  </div>
+
+  <div class="card" id="finalScoreCard" style="display:none;">
+    <div class="score-banner">
+      <div style="color:var(--muted);font-size:14px;margin-bottom:6px;">نتيجتك في هذه التجربة</div>
+      <div class="big" id="scoreBig">0%</div>
+      <p id="scoreNote" style="color:var(--muted);margin-top:10px;"></p>
+      <button class="btn secondary" style="margin-top:14px;" onclick="downloadReport()">⬇️ تنزيل تقرير النتيجة (نص)</button>
+    </div>
+  </div>
+</section>
+
+<div class="card" id="resourcesBlock" style="margin-top:14px;border-top:2px solid var(--green-dim);">
+  <h3>🎬 مرجع حقيقي إضافي (مجاني وبلا إعلانات)</h3>
+  <p style="color:var(--muted);">هذا المعمل الافتراضي مخصص للتدريب على المفاهيم والتشخيص، ولا يغني عن متابعة كومة سماد حقيقية. الفيديو التالي من Vimeo — مجاني، بلا تسجيل دخول، وبلا إعلانات إطلاقًا:</p>
+  <ul class="crit-list">
+    <li><a href="https://vimeo.com/13189294" target="_blank" rel="noopener">I. The all-important Compost Ratio — أهمية نسبة C:N (مؤكَّد يعمل ضمن منصات التضمين)</a></li>
+  </ul>
+  <p style="color:var(--muted);font-size:12.5px;margin-top:12px;border-top:1px dashed var(--line);padding-top:10px;">رابط التضمين لأي منصة أخرى: <span class="mono">https://player.vimeo.com/video/13189294</span></p>
+</div>
 
 </div>
 
+<footer>معمل افتراضي تعليمي — قسم الأحياء · تجربة تحلل المواد العضوية والسماد العضوي · لا يغني عن الممارسة الميدانية الحقيقية</footer>
+
 <script>
-/* ---------------- State ---------------- */
-const STAGES = ["الإثارة","الاستكشاف","التفسير","التوسّع","التقييم"];
-let current = 0;
-let unlocked = [true,false,false,false,false];
-let dataPoints = []; // {day, T, M, pop}
-
-function renderStepper(){
-  const el = document.getElementById('stepper'); el.innerHTML='';
-  STAGES.forEach((s,i)=>{
-    const d = document.createElement('div');
-    d.className = 'step' + (i===current?' active':'') + (unlocked[i+1] || i<current ? ' done':'');
-    d.innerHTML = `<div class="dot">${i<current?'✓':i+1}</div><div class="lbl">${s}</div>`;
-    el.appendChild(d);
-  });
-}
-function goTo(i){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
-  document.getElementById('stage-'+i).classList.add('show');
-  current = i;
-  renderStepper();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-renderStepper(); goTo(0);
-
-/* ---------------- Growth model ----------------
-   منحنى نمو لوجستي متأثر بعامل حرارة (منحنى جرسي حول المدى الأمثل 45-60°م)
-   وعامل رطوبة (منحنى جرسي حول 50-65٪). العائد: معدل نمو فعّال r (يوميًا). */
-function tempFactor(T){
-  // مثالي حول 52°م (بكتيريا هوائية-حرارية)، ينهار فوق 70°م أو تحت 10°م
-  const optimal = 52, width = 16;
-  let f = Math.exp(-Math.pow((T-optimal)/width,2));
-  if (T > 70) f *= Math.max(0, 1-(T-70)/15); // موت حراري فوق 70
-  return f;
-}
-function moistureFactor(M){
-  const optimal = 58, width = 25;
-  return Math.exp(-Math.pow((M-optimal)/width,2));
-}
-function effectiveRate(T,M){
-  const rMax = 0.55; // أقصى معدل نمو يومي ممكن
-  return rMax * tempFactor(T) * moistureFactor(M);
-}
-// تعداد المستعمرة (نسبة من الحد الأقصى K=100) كدالة في الزمن (أيام)، بمعدل نمو فعّال ثابت خلال المحاكاة السريعة
-function populationAt(days, T, M){
-  const r = effectiveRate(T,M);
-  const K = 100, N0 = 2, lag = 1.2; // يوم كمون قبل بدء النمو الفعلي
-  const t = Math.max(0, days-lag);
-  return K / (1 + ((K-N0)/N0)*Math.exp(-r*t*4));
-}
-function decompositionAt(days, T, M){
-  // نسبة التحلل مرتبطة تراكميًا بتعداد المستعمرة عبر الزمن (تكامل مبسّط)
-  const pop = populationAt(days,T,M);
-  const r = effectiveRate(T,M);
-  return Math.min(100, pop * (0.55 + r*0.5));
+/* ============================================================
+   0. SEEDED RANDOM HELPER
+============================================================ */
+function cellRand(seed,i,j,k){
+  let x = Math.sin(i*127.1 + j*311.7 + seed*74.7 + (k||0)*13.37)*43758.5453;
+  return x - Math.floor(x);
 }
 
-/* ---------------- Stage 1: Engage ---------------- */
-(function(){
-  const q = document.getElementById('q0');
-  const opts = q.querySelectorAll('.opt');
-  const fb = q.querySelector('.fb');
-  opts.forEach(o=>o.addEventListener('click',()=>{
-    opts.forEach(x=>x.disabled=true);
-    const correctIdx = 0;
-    const chosen = [...opts].indexOf(o);
-    if(chosen===correctIdx){
-      o.classList.add('correct');
-      fb.className='fb ok'; fb.textContent='✔ صحيح — البكتيريا النافعة تُحلّل المركبات المعقدة (سليلوز، بروتينات) إلى عناصر بسيطة يسهل امتصاصها.';
-      document.getElementById('next0').disabled=false;
-    }else{
-      o.classList.add('wrong');
-      opts[correctIdx].classList.add('correct');
-      fb.className='fb bad'; fb.textContent='✘ الدور الأساسي هو التحليل الحيوي للمركبات العضوية، وليس إنتاج الأكسجين أو التلوين.';
-      document.getElementById('next0').disabled=false;
+/* ============================================================
+   1. COMPOST MODEL — temperature curve + phase + odor
+============================================================ */
+function computeCompost(params){
+  const idealCN=27, idealMoist=55;
+  const devCN = Math.abs(params.cn-idealCN)/15;
+  const devMoist = Math.abs(params.moisture-idealMoist)/25;
+  const aerFactor = {none:0.45, weekly:0.85, daily:1.0}[params.aeration];
+  const sizeFactor = {small:0.55, medium:0.85, large:1.0}[params.size];
+  const dry = params.moisture < 35;
+  const tooWet = params.moisture > 72;
+  const anaerobic = tooWet && params.aeration==='none';
+  const ammonia = params.cn < 18;
+
+  let cnFactor = Math.max(0, 1 - devCN);
+  let moistFactor = Math.max(0, 1 - devMoist);
+  if(dry) moistFactor *= 0.35;
+  let peakRise = 42 * cnFactor * moistFactor * aerFactor * sizeFactor;
+  if(anaerobic) peakRise *= 0.5;
+  peakRise = Math.max(2, peakRise);
+  const ambient = 24;
+  const peakTemp = ambient + peakRise;
+  const delay = dry ? 2.2 : 1;
+
+  function tempAtDay(d){
+    const dd = d/delay;
+    if(dd<=5){
+      return ambient + (peakTemp-ambient)*(dd/5);
+    } else if(dd<=10){
+      return peakTemp - (peakTemp - (peakTemp*0.94))*((dd-5)/5);
+    } else {
+      const decayDay = dd-10;
+      const matureTemp = ambient+4;
+      const t = (peakTemp*0.94) * Math.exp(-decayDay/8) + matureTemp*(1-Math.exp(-decayDay/8));
+      return Math.max(matureTemp, t);
     }
-  }));
-  document.getElementById('next0').addEventListener('click',()=>{unlocked[1]=true; goTo(1);});
-})();
-
-/* ---------------- Stage 2: Explore ---------------- */
-const tSlider = document.getElementById('tSlider');
-const mSlider = document.getElementById('mSlider');
-const tVal = document.getElementById('tVal');
-const mVal = document.getElementById('mVal');
-const roDay = document.getElementById('roDay');
-const roPop = document.getElementById('roPop');
-const roDecomp = document.getElementById('roDecomp');
-const dish = document.getElementById('dish');
-const dctx = dish.getContext('2d');
-let simDay = 0, playing = false, dots = [];
-
-function updateSliderLabels(){
-  tVal.textContent = tSlider.value+' °م';
-  mVal.textContent = mSlider.value+'٪';
-}
-tSlider.addEventListener('input', updateSliderLabels);
-mSlider.addEventListener('input', updateSliderLabels);
-updateSliderLabels();
-
-function currentPop(){ return populationAt(simDay, +tSlider.value, +mSlider.value); }
-function currentDecomp(){ return decompositionAt(simDay, +tSlider.value, +mSlider.value); }
-
-function drawDish(){
-  dctx.clearRect(0,0,dish.width,dish.height);
-  // petri dish circle
-  const cx=220, cy=110, R=95;
-  dctx.beginPath(); dctx.arc(cx,cy,R,0,Math.PI*2);
-  dctx.fillStyle='#292524'; dctx.fill();
-  dctx.strokeStyle='#57534e'; dctx.lineWidth=3; dctx.stroke();
-
-  const pop = currentPop();
-  const n = Math.max(0, Math.min(220, Math.round(pop*2.2)));
-  while(dots.length<n) dots.push({a:Math.random()*Math.PI*2, r:Math.random()*R*0.92, s:0.5+Math.random()});
-  dots = dots.slice(0,n);
-  const T = +tSlider.value;
-  const dead = T>72;
-  dctx.fillStyle = dead ? '#7f1d1d' : (T>=45&&T<=60 ? '#4ade80' : '#a3e635');
-  dots.forEach(d=>{
-    const x = cx + Math.cos(d.a)*d.r, y = cy + Math.sin(d.a)*d.r;
-    dctx.beginPath(); dctx.arc(x,y,1.6*d.s,0,Math.PI*2); dctx.fill();
-  });
-  dctx.fillStyle='#e7e5e4'; dctx.font='bold 12px sans-serif'; dctx.textAlign='center';
-  dctx.fillText('اليوم '+simDay.toFixed(1), cx, 20);
-  dctx.textAlign='left';
-
-  roDay.textContent = simDay.toFixed(1);
-  roPop.textContent = pop.toFixed(0)+'٪';
-  roDecomp.textContent = currentDecomp().toFixed(0)+'٪';
-}
-drawDish();
-
-let lastT = performance.now();
-function loop(now){
-  const dt=(now-lastT)/1000; lastT=now;
-  if(playing){ simDay += dt*1.5; if(simDay>30) simDay=30; }
-  drawDish();
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-
-document.getElementById('playBtn').addEventListener('click',(e)=>{
-  playing = !playing;
-  e.target.textContent = playing ? '⏸ إيقاف مؤقت' : '▶ تشغيل الزمن';
-});
-document.getElementById('resetBtn').addEventListener('click',()=>{
-  simDay=0; playing=false; document.getElementById('playBtn').textContent='▶ تشغيل الزمن';
-});
-
-const tbody = document.querySelector('#dataTable tbody');
-document.getElementById('recordBtn').addEventListener('click',()=>{
-  const T=+tSlider.value, M=+mSlider.value, pop=currentPop();
-  dataPoints.push({day:simDay, T, M, pop});
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${dataPoints.length}</td><td>${simDay.toFixed(1)}</td><td>${T}</td><td>${M}</td><td>${pop.toFixed(0)}</td>`;
-  tbody.appendChild(tr);
-  if(dataPoints.length>=5){
-    document.getElementById('next1').disabled=false;
-    document.getElementById('tableHint').textContent='رائع، لديك بيانات كافية للانتقال إلى مرحلة التحليل.';
   }
-});
-document.getElementById('back1').addEventListener('click',()=>goTo(0));
-document.getElementById('next1').addEventListener('click',()=>{unlocked[2]=true; drawGrowthGraph(); goTo(2);});
 
-/* ---------------- Stage 3: Explain ---------------- */
-function drawGrowthGraph(){
-  const c = document.getElementById('graph'); const g = c.getContext('2d');
-  g.clearRect(0,0,c.width,c.height);
-  const pad=40, w=c.width-pad*2, h=c.height-pad*2;
-  const sorted = [...dataPoints].sort((a,b)=>a.day-b.day);
-  const maxDay = Math.max(...sorted.map(p=>p.day),1)*1.15;
-  g.strokeStyle='#94a3b8'; g.lineWidth=1;
-  g.beginPath(); g.moveTo(pad,pad); g.lineTo(pad,pad+h); g.lineTo(pad+w,pad+h); g.stroke();
-  g.fillStyle='#475569'; g.font='12px sans-serif';
-  g.fillText('الزمن (أيام) →', pad+w-90, pad+h+28);
-  g.save(); g.translate(14,pad+h/2+30); g.rotate(-Math.PI/2); g.fillText('تعداد المستعمرة٪ →',0,0); g.restore();
-  // theoretical smooth curve using first point's T,M as reference
-  if (sorted.length){
-    const {T,M} = sorted[0];
-    g.strokeStyle='#a3e635'; g.lineWidth=2; g.beginPath();
-    for(let d=0; d<=maxDay; d+=0.3){
-      const pop = populationAt(d,T,M);
-      const x = pad + (d/maxDay)*w, y = pad+h-(pop/100)*h;
-      if(d===0) g.moveTo(x,y); else g.lineTo(x,y);
-    }
-    g.stroke();
-  }
-  g.fillStyle='#16a34a';
-  sorted.forEach(p=>{
-    const x = pad + (p.day/maxDay)*w, y = pad+h-(p.pop/100)*h;
-    g.beginPath(); g.arc(x,y,5,0,Math.PI*2); g.fill();
-  });
+  const temp = tempAtDay(params.day);
+  let phase, microbes;
+  if(temp >= 45){ phase="المرحلة الحرارية (ذروة)"; microbes="بكتيريا محبة للحرارة (Bacillus)"; }
+  else if(params.day > 12 && temp < 38){ phase="مرحلة النضج والدبال"; microbes="فطريات وأكتينوميستات"; }
+  else { phase="المرحلة الميزوفيلية"; microbes="بكتيريا معتدلة الحرارة (Pseudomonas)"; }
+
+  let odor = "رائحة ترابية طبيعية (جيدة)";
+  if(anaerobic) odor="رائحة كريهة (بيض فاسد) — حالة لا هوائية";
+  else if(ammonia) odor="رائحة أمونيا نفاذة";
+  else if(dry) odor="بلا رائحة تقريبًا — نشاط بطيء جدًا";
+
+  return {temp, phase, microbes, odor, peakTemp, anaerobic, ammonia, dry, tooWet, tempAtDay};
 }
-(function(){
-  const q = document.getElementById('q2');
-  const opts = q.querySelectorAll('.opt');
-  const fb = q.querySelector('.fb');
-  opts.forEach(o=>o.addEventListener('click',()=>{
-    opts.forEach(x=>x.disabled=true);
-    const correctIdx = 1;
-    const chosen = [...opts].indexOf(o);
-    if(chosen===correctIdx){
-      o.classList.add('correct');
-      fb.className='fb ok'; fb.textContent='✔ صحيح — بعد نفاد الغذاء تدخل المستعمرة الطور الساكن ثم الانحداري.';
-    }else{
-      o.classList.add('wrong'); opts[correctIdx].classList.add('correct');
-      fb.className='fb bad'; fb.textContent='✘ الكمون بداية بلا نمو ملحوظ، واللوغاريتمي هو ذروة النمو السريع — التباطؤ يأتي بعدهما.';
-    }
-    document.getElementById('next2').disabled=false;
-  }));
-})();
-document.getElementById('back2').addEventListener('click',()=>goTo(1));
-document.getElementById('next2').addEventListener('click',()=>{unlocked[3]=true; goTo(3);});
 
-/* ---------------- Stage 4: Elaborate ---------------- */
-const dtSlider = document.getElementById('dtSlider');
-const dmSlider = document.getElementById('dmSlider');
-document.getElementById('dtVal').textContent = dtSlider.value+' °م';
-document.getElementById('dmVal').textContent = dmSlider.value+'٪';
-dtSlider.addEventListener('input',()=>document.getElementById('dtVal').textContent=dtSlider.value+' °م');
-dmSlider.addEventListener('input',()=>document.getElementById('dmVal').textContent=dmSlider.value+'٪');
-
-document.getElementById('testBtn').addEventListener('click',()=>{
-  const T=+dtSlider.value, M=+dmSlider.value;
-  const target=70, tolDays=14;
-  const decomp14 = decompositionAt(tolDays,T,M);
-  const dead = T>72;
-  const fb = document.getElementById('designFb');
-  // draw curve
-  const c = document.getElementById('designGraph'); const g = c.getContext('2d');
-  g.clearRect(0,0,c.width,c.height);
-  const pad=32,w=c.width-pad*2,h=c.height-pad*2;
-  g.strokeStyle='#94a3b8'; g.beginPath(); g.moveTo(pad,pad); g.lineTo(pad,pad+h); g.lineTo(pad+w,pad+h); g.stroke();
-  g.strokeStyle= dead ? '#dc2626' : '#16a34a'; g.lineWidth=2.5; g.beginPath();
-  for(let d=0; d<=14; d+=0.3){
-    const dec = decompositionAt(d,T,M);
-    const x=pad+(d/14)*w, y=pad+h-(dec/100)*h;
-    if(d===0) g.moveTo(x,y); else g.lineTo(x,y);
-  }
-  g.stroke();
-  g.strokeStyle='#f59e0b'; g.setLineDash([4,4]); g.beginPath();
-  g.moveTo(pad, pad+h-(target/100)*h); g.lineTo(pad+w, pad+h-(target/100)*h); g.stroke(); g.setLineDash([]);
-  g.fillStyle='#475569'; g.font='11px sans-serif'; g.fillText('هدف 70٪', pad+4, pad+h-(target/100)*h-6);
-
-  if(dead){
-    fb.className='fb bad';
-    fb.innerHTML = `✘ حرارة ${T}°م قتلت المستعمرة البكتيرية (فوق 70°م تقريبًا) — التحلل توقف عند ${decomp14.toFixed(0)}٪ فقط. خفّض الحرارة.`;
-  } else if(decomp14>=target){
-    fb.className='fb ok';
-    fb.innerHTML = `✔ ممتاز — عند T=${T}°م وM=${M}٪ وصلت نسبة التحلل إلى ${decomp14.toFixed(0)}٪ خلال 14 يومًا، محققًا الهدف.`;
-    document.getElementById('next3').disabled=false;
-  } else {
-    fb.className='fb bad';
-    fb.innerHTML = `✘ نسبة التحلل ${decomp14.toFixed(0)}٪ فقط خلال 14 يومًا — أقل من الهدف. جرّب الاقتراب أكثر من المدى الأمثل (~50–58°م ورطوبة ~55–65٪).`;
-  }
-});
-document.getElementById('back3').addEventListener('click',()=>goTo(2));
-document.getElementById('next3').addEventListener('click',()=>{unlocked[4]=true; buildQuiz(); goTo(4);});
-
-/* ---------------- Stage 5: Evaluate ---------------- */
-const QUIZ = [
-  {level:'تذكر', q:'ما اسم الطور الذي تدخله البكتيريا فور توفر ظروف مثالية، حيث يتضاعف العدد بمعدل ثابت وسريع؟', opts:['طور الكمون','الطور اللوغاريتمي (الأسّي)','الطور الساكن','طور الموت'], c:1},
-  {level:'فهم', q:'لماذا تتوقف الكومة عن التسخين الذاتي عند تجاوز الحرارة 70°م تقريبًا؟', opts:['نفاد الأكسجين فقط','موت البكتيريا الحرارية نفسها بسبب الحرارة المفرطة','زيادة الرطوبة بشكل مفاجئ','تحول المخلفات إلى معادن'], c:1},
-  {level:'تطبيق', q:'إذا سجّلت تعداد مستعمرة 20٪ في اليوم 2 و80٪ في اليوم 5، في أي طور غالبًا كانت خلال هذه الفترة؟', opts:['الكمون','اللوغاريتمي (نمو سريع)','الساكن','الموت'], c:1},
-  {level:'تحليل', q:'كومتان بنفس الرطوبة، إحداهما عند 30°م والأخرى عند 55°م. لماذا تتحلل الثانية أسرع رغم تساوي الرطوبة؟', opts:['لأن 55°م أقرب للمدى الأمثل لنشاط البكتيريا الحرارية', 'لأن الحرارة العالية تبخّر الماء الزائد فقط', 'لا فرق فعلي بينهما', 'لأن البرودة تقتل مسببات الأمراض فقط'], c:0},
-  {level:'تقييم', q:'مزرعة تريد سمادًا جاهزًا خلال أسبوع واحد فقط (لا 14 يومًا). أي قرار هندسي أنسب؟', opts:['خفض الحرارة لأقل من 10°م لإبطاء التحلل والتحكم به','ضبط الحرارة والرطوبة عند القيم المثلى بدقة أكبر ومراقبة يومية لتسريع الدورة قدر الإمكان دون قتل البكتيريا','رفع الحرارة فوق 75°م لتسريع كل شيء','عدم التدخل وترك الكومة على حالها'], c:1},
-];
-let quizScore=0, quizAnswered=0;
-function buildQuiz(){
-  const wrap = document.getElementById('quizWrap'); wrap.innerHTML=''; quizScore=0; quizAnswered=0;
-  document.getElementById('finalBox').style.display='none';
-  QUIZ.forEach((item,qi)=>{
-    const card = document.createElement('div'); card.className='qcard';
-    card.innerHTML = `<div class="qtext">${qi+1}. [${item.level}] ${item.q}</div>` +
-      item.opts.map((o,oi)=>`<button class="opt" data-qi="${qi}" data-oi="${oi}">${o}</button>`).join('') +
-      `<div class="fb"></div>`;
-    wrap.appendChild(card);
-  });
-  wrap.querySelectorAll('.opt').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const qi=+btn.dataset.qi, oi=+btn.dataset.oi;
-      const card = btn.closest('.qcard');
-      if(card.dataset.done) return;
-      card.dataset.done='1';
-      const opts = card.querySelectorAll('.opt'); opts.forEach(o=>o.disabled=true);
-      const fb = card.querySelector('.fb');
-      quizAnswered++;
-      if(oi===QUIZ[qi].c){
-        btn.classList.add('correct'); quizScore++;
-        fb.className='fb ok'; fb.textContent='✔ إجابة صحيحة';
-      }else{
-        btn.classList.add('wrong'); opts[QUIZ[qi].c].classList.add('correct');
-        fb.className='fb bad'; fb.textContent='✘ الإجابة الصحيحة موضّحة باللون الأخضر';
+/* ============================================================
+   2. CANVAS RENDERING
+============================================================ */
+function drawBin(ctx,w,h,params,result,seed){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#171310"; ctx.fillRect(0,0,w,h);
+  const binX=w*0.12, binY=h*0.12, binW=w*0.76, binH=h*0.8;
+  ctx.strokeStyle="#5c4a2f"; ctx.lineWidth=4;
+  ctx.strokeRect(binX,binY,binW,binH);
+  const maturity = Math.min(1, params.day/25);
+  const baseR = 122-40*maturity, baseG = 84-30*maturity, baseB=48-20*maturity;
+  ctx.fillStyle = `rgb(${baseR},${baseG},${baseB})`;
+  ctx.fillRect(binX+3,binY+3,binW-6,binH-6);
+  const cs=18;
+  for(let i=0;i<binW/cs;i++){
+    for(let j=0;j<binH/cs;j++){
+      if(cellRand(seed,i,j,1)<0.5){
+        const bx=binX+i*cs+cellRand(seed,i,j,2)*cs;
+        const by=binY+j*cs+cellRand(seed,i,j,3)*cs;
+        const tone = cellRand(seed,i,j,4)<0.5 ? "rgba(160,120,70,0.5)" : "rgba(90,140,60,0.4)";
+        ctx.fillStyle=tone;
+        ctx.beginPath(); ctx.ellipse(bx,by,5+cellRand(seed,i,j,5)*4,3,cellRand(seed,i,j,6)*Math.PI,0,Math.PI*2);
+        ctx.fill();
       }
-      if(quizAnswered===QUIZ.length) showFinal();
+    }
+  }
+  const intensity = Math.max(0,(result.temp-30)/35);
+  const nParticles = Math.floor(intensity*22);
+  const t = performance.now()/1000;
+  for(let k=0;k<nParticles;k++){
+    const px = binX + ((k*53.7 + t*20) % binW);
+    const py = binY - ((k*31.3 + t*40) % (h*0.5));
+    ctx.beginPath();
+    ctx.arc(px,py,2.4,0,Math.PI*2);
+    ctx.fillStyle=`rgba(230,230,230,${0.25*intensity})`;
+    ctx.fill();
+  }
+  const thX=w*0.90, thY1=h*0.15, thY2=h*0.85;
+  ctx.strokeStyle="#cbbfa8"; ctx.lineWidth=3;
+  ctx.beginPath(); ctx.moveTo(thX,thY1); ctx.lineTo(thX,thY2); ctx.stroke();
+  const frac = Math.min(1, Math.max(0,(result.temp-15)/(70-15)));
+  const fillY = thY2 - frac*(thY2-thY1);
+  ctx.strokeStyle = result.temp>=45 ? "#e0645f" : (result.temp>=38 ? "#e79a3f" : "#7fbf6b");
+  ctx.lineWidth=5;
+  ctx.beginPath(); ctx.moveTo(thX,thY2); ctx.lineTo(thX,fillY); ctx.stroke();
+  ctx.beginPath(); ctx.arc(thX,thY2+6,7,0,Math.PI*2); ctx.fillStyle=ctx.strokeStyle; ctx.fill();
+}
+
+function drawChart(ctx,w,h,params,computeFn){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#100e0b"; ctx.fillRect(0,0,w,h);
+  const padL=34, padR=10, padT=10, padB=20;
+  const plotW=w-padL-padR, plotH=h-padT-padB;
+  const maxT=75, minT=15;
+  function xFor(d){return padL + (d/30)*plotW;}
+  function yFor(t){return padT + plotH - ((t-minT)/(maxT-minT))*plotH;}
+  ctx.fillStyle="rgba(127,174,91,0.08)"; ctx.fillRect(padL,yFor(45),plotW,yFor(20)-yFor(45));
+  ctx.fillStyle="rgba(231,154,63,0.10)"; ctx.fillRect(padL,yFor(65),plotW,yFor(45)-yFor(65));
+  ctx.beginPath();
+  for(let d=0;d<=30;d++){
+    const t=computeFn(d);
+    const x=xFor(d), y=yFor(t);
+    if(d===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle="#e79a3f"; ctx.lineWidth=2.4; ctx.stroke();
+  const curX = xFor(params.day);
+  ctx.strokeStyle="rgba(255,255,255,.5)"; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(curX,padT); ctx.lineTo(curX,padT+plotH); ctx.stroke();
+  const curT = computeFn(params.day);
+  ctx.beginPath(); ctx.arc(curX,yFor(curT),4,0,Math.PI*2); ctx.fillStyle="#fff"; ctx.fill();
+  ctx.fillStyle="#d8c9ac"; ctx.font="10px 'IBM Plex Mono'";
+  ctx.fillText("°م",4,padT+8);
+  ctx.fillText("0",padL-3,h-4); ctx.fillText("30",w-padR-14,h-4);
+}
+
+/* ============================================================
+   3. SCOPE 1 (Explore) WIRING
+============================================================ */
+const bin1=document.getElementById('binCanvas1'), binCtx1=bin1.getContext('2d');
+const chart1=document.getElementById('chartCanvas1'), chartCtx1=chart1.getContext('2d');
+let seed1=Math.floor(Math.random()*99999);
+const state1={cn:27, moisture:55, aeration:'weekly', size:'medium', day:0};
+
+function render1(){
+  const result=computeCompost(state1);
+  drawBin(binCtx1, bin1.width, bin1.height, state1, result, seed1);
+  drawChart(chartCtx1, chart1.width, chart1.height, state1, d=>computeCompost({...state1,day:d}).temp);
+  document.getElementById('readout1').innerHTML = `
+    <div>الحرارة الحالية</div><div><b class="mono">${result.temp.toFixed(1)}°م</b></div>
+    <div>المرحلة السائدة</div><div style="color:#fff">${result.phase}</div>
+    <div>البكتيريا/الكائنات النشطة</div><div style="color:#fff;font-size:12px;">${result.microbes}</div>
+    <div>حالة الرائحة</div><div style="color:#fff;font-size:12px;">${result.odor}</div>
+  `;
+}
+function animLoop(){ render1(); requestAnimationFrame(animLoop); }
+animLoop();
+
+document.getElementById('cnSlider1').addEventListener('input',e=>{state1.cn=+e.target.value; document.getElementById('cnVal1').textContent=e.target.value;});
+document.getElementById('moistSlider1').addEventListener('input',e=>{state1.moisture=+e.target.value; document.getElementById('moistVal1').textContent=e.target.value;});
+document.getElementById('daySlider1').addEventListener('input',e=>{state1.day=+e.target.value; document.getElementById('dayVal1').textContent=e.target.value;});
+document.getElementById('aerationSelect1').addEventListener('change',e=>{state1.aeration=e.target.value;});
+document.getElementById('sizeSelect1').addEventListener('change',e=>{state1.size=e.target.value;});
+
+function randomizeScenario(){
+  state1.cn = 15+Math.floor(Math.random()*30);
+  state1.moisture = 20+Math.floor(Math.random()*65);
+  const aer=['none','weekly','daily']; state1.aeration=aer[Math.floor(Math.random()*3)];
+  const sz=['small','medium','large']; state1.size=sz[Math.floor(Math.random()*3)];
+  state1.day = Math.floor(Math.random()*30);
+  seed1=Math.floor(Math.random()*99999);
+  document.getElementById('cnSlider1').value=state1.cn; document.getElementById('cnVal1').textContent=state1.cn;
+  document.getElementById('moistSlider1').value=state1.moisture; document.getElementById('moistVal1').textContent=state1.moisture;
+  document.getElementById('daySlider1').value=state1.day; document.getElementById('dayVal1').textContent=state1.day;
+  document.getElementById('aerationSelect1').value=state1.aeration;
+  document.getElementById('sizeSelect1').value=state1.size;
+}
+
+let logCount=0;
+function logCurrentView(){
+  logCount++;
+  const result=computeCompost(state1);
+  const tbody=document.querySelector('#logTable tbody');
+  const tr=document.createElement('tr');
+  const aerLabel={none:"بدون قلب",weekly:"أسبوعي",daily:"يومي"}[state1.aeration];
+  const sizeLabel={small:"صغيرة",medium:"متوسطة",large:"كبيرة"}[state1.size];
+  tr.innerHTML = `<td class="mono">${logCount}</td><td class="mono">${state1.cn}</td><td class="mono">${state1.moisture}٪</td>
+    <td>${aerLabel}</td><td>${sizeLabel}</td><td class="mono">${state1.day}</td><td class="mono">${result.temp.toFixed(1)}°م</td><td>${result.phase}</td>`;
+  tbody.appendChild(tr);
+  unlockStage(2);
+}
+
+/* ============================================================
+   4. STAGE / STEPPER NAVIGATION (with progression gating)
+============================================================ */
+const stages=[...document.querySelectorAll('section.stage')];
+const stepBtns=[...document.querySelectorAll('.step-btn')];
+const unlocked=[true,false,false,false,false];
+
+function unlockStage(idx){
+  if(idx<0||idx>=unlocked.length||unlocked[idx]) return;
+  unlocked[idx]=true;
+  const btn=stepBtns[idx];
+  btn.classList.remove('locked');
+  btn.querySelector('.num').textContent = btn.querySelector('.num').textContent.replace(' 🔒','');
+}
+function goToStage(idx){
+  if(!unlocked[idx]){ flashLockedNotice(idx); return; }
+  stages.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  stepBtns.forEach((b,i)=>b.classList.toggle('active',i===idx));
+  window.scrollTo({top: document.querySelector('.stepper').offsetTop, behavior:'smooth'});
+}
+function flashLockedNotice(idx){
+  const names=["الإثارة","الاستكشاف","الشرح","التوسّع","التقييم"];
+  stepBtns[idx].animate([{opacity:1},{opacity:.3},{opacity:1}],{duration:400,iterations:2});
+  alert("أكمل متطلبات المرحلة الحالية أولًا لفتح مرحلة «"+names[idx]+"».");
+}
+stepBtns.forEach((b,i)=>b.addEventListener('click',()=>goToStage(i)));
+
+/* ============================================================
+   5. ENGAGE — guess question
+============================================================ */
+const guessOptions=document.getElementById('guessOptions');
+const guessChoices=[
+  {t:"نسبة C:N منخفضة جدًا (نيتروجين زائد)",correct:true},
+  {t:"نسبة C:N مرتفعة جدًا (كربون زائد)",correct:false},
+  {t:"الرطوبة منخفضة جدًا",correct:false},
+  {t:"حجم الكومة كبير جدًا",correct:false}
+];
+guessChoices.forEach(c=>{
+  const b=document.createElement('button');
+  b.className='opt-btn'; b.textContent=c.t;
+  b.onclick=()=>{
+    [...guessOptions.children].forEach(x=>x.classList.remove('correct','wrong'));
+    b.classList.add(c.correct?'correct':'wrong');
+    document.getElementById('guessNote').style.display='block';
+    unlockStage(1);
+  };
+  guessOptions.appendChild(b);
+});
+
+/* ============================================================
+   6. EXPLAIN — check questions
+============================================================ */
+const explainQuestions=[...document.querySelectorAll('#stage2 .check-q')];
+const explainAnswered=new Set();
+explainQuestions.forEach((q,qi)=>{
+  const btns=q.querySelectorAll('.opt-btn');
+  const fb=q.querySelector('.feedback');
+  btns.forEach(b=>{
+    b.addEventListener('click',()=>{
+      btns.forEach(x=>x.classList.remove('correct','wrong'));
+      const isCorrect=b.dataset.correct==='true';
+      b.classList.add(isCorrect?'correct':'wrong');
+      if(!isCorrect){
+        const correctBtn=[...btns].find(x=>x.dataset.correct==='true');
+        correctBtn.classList.add('correct');
+      }
+      fb.textContent = isCorrect ? "✔ إجابة صحيحة." : "✘ ليست الإجابة الصحيحة — لاحظ التظليل الأخضر للإجابة الصائبة.";
+      fb.classList.add('show');
+      explainAnswered.add(qi);
+      if(explainAnswered.size>=explainQuestions.length) unlockStage(3);
+    });
+  });
+});
+
+/* ============================================================
+   7. ELABORATE — 6 diagnostic cases
+============================================================ */
+const CAUSES = {
+  noaeration:{name:"نقص التهوية (حالة لا هوائية)", fix:"قلب الكومة بانتظام وإضافة مواد جافة خشنة لتحسين تدفق الهواء"},
+  dry:{name:"نقص الرطوبة (جفاف)", fix:"إضافة ماء تدريجيًا حتى قوام الإسفنجة المعصورة"},
+  lowCN:{name:"نسبة C:N منخفضة جدًا (نيتروجين زائد)", fix:"إضافة مواد كربونية جافة (أوراق، كرتون، نشارة خشب)"},
+  highCN:{name:"نسبة C:N مرتفعة جدًا (كربون زائد)", fix:"إضافة مواد نيتروجينية (بقايا خضروات، سماد حيواني، عشب أخضر)"},
+  normal:{name:"سلوك طبيعي، لا مشكلة", fix:"لا حاجة لتدخّل — استمرار طبيعي نحو مرحلة النضج"},
+  smallsize:{name:"حجم الكومة صغير جدًا لعزل الحرارة", fix:"زيادة حجم الكومة إلى ما لا يقل عن متر مكعب تقريبًا"}
+};
+const CASES=[
+  {id:0, cause:'noaeration', desc:"كومة باردة ورطبة جدًا (رطوبة ~78٪)، ورائحتها كريهة تشبه البيض الفاسد رغم مرور أسبوع، ولم تُقلَب منذ إنشائها.",
+   feats:["رطوبة مرتفعة جدًا","لم تُقلَب إطلاقًا","رائحة كبريتية كريهة","حرارة منخفضة رغم مرور وقت كافٍ"], distr:["رائحة أمونيا نفاذة","جفاف واضح للمواد"]},
+  {id:1, cause:'dry', desc:"كومة جافة الملمس (رطوبة ~25٪)، حرارتها لم ترتفع إطلاقًا منذ أسبوعين رغم توازن المواد الكربونية والنيتروجينية.",
+   feats:["جفاف واضح للمواد","حرارة منخفضة رغم مرور وقت كافٍ","لا رائحة تقريبًا"], distr:["رطوبة مرتفعة جدًا","رائحة أمونيا نفاذة"]},
+  {id:2, cause:'lowCN', desc:"كومة تنبعث منها رائحة أمونيا نفاذة بعد يومين فقط من إضافة كمية كبيرة من قصاصات العشب الأخضر وبقايا خضروات فقط.",
+   feats:["رائحة أمونيا نفاذة","مواد نيتروجينية زائدة بوضوح","حرارة ترتفع بسرعة أولية"], distr:["جفاف واضح للمواد","لم تُقلَب إطلاقًا"]},
+  {id:3, cause:'highCN', desc:"كومة من نشارة خشب وأوراق جافة بكميات كبيرة جدًا مع القليل من بقايا الخضروات، حرارتها لا ترتفع أبدًا رغم رطوبة وتهوية جيدتين، والتحلل بطيء جدًا.",
+   feats:["مواد كربونية زائدة بوضوح","حرارة منخفضة رغم مرور وقت كافٍ","رطوبة وتهوية جيدتان بالفعل"], distr:["رائحة كبريتية كريهة","رائحة أمونيا نفاذة"]},
+  {id:4, cause:'normal', desc:"كومة وصلت ذروة حرارية ممتازة (60°م) خلال الأسبوع الأول، ثم بدأت تبرد تدريجيًا وبانتظام على مدى 10 أيام تالية، والرائحة ترابية طيبة.",
+   feats:["ذروة حرارية جيدة تحقّقت سابقًا","انخفاض تدريجي منتظم للحرارة","رائحة ترابية طبيعية"], distr:["رائحة كبريتية كريهة","جفاف واضح للمواد"]},
+  {id:5, cause:'smallsize', desc:"كومة صغيرة الحجم جدًا (أقل من نصف متر مكعب) بنسبة C:N ورطوبة وتهوية مثالية جميعًا، ومع ذلك حرارتها لا ترتفع كثيرًا وتبرد بسرعة.",
+   feats:["حجم الكومة صغير جدًا","كل العوامل الأخرى متوازنة بالفعل","حرارة منخفضة رغم توازن العوامل"], distr:["رائحة أمونيا نفاذة","لم تُقلَب إطلاقًا"]}
+];
+const caseStates=[];
+function buildCasesGrid(){
+  const grid=document.getElementById('casesGrid');
+  CASES.forEach((c,idx)=>{
+    const wrap=document.createElement('div'); wrap.className='slide-card';
+    const options=[...c.feats,...c.distr].sort(()=>Math.random()-0.5);
+    wrap.innerHTML = `
+      <div class="num">حالة رقم ${idx+1}</div>
+      <div class="case-desc">${c.desc}</div>
+      <select data-guess="${idx}">
+        <option value="">— السبب الأرجح —</option>
+        ${Object.keys(CAUSES).map(k=>`<option value="${k}">${CAUSES[k].name}</option>`).join('')}
+      </select>
+      <div class="feat-list">
+        ${options.map(f=>`<label><input type="checkbox" data-feat="${f}" data-slide="${idx}"> ${f}</label>`).join('')}
+      </div>
+      <div class="slide-result" id="caseResult${idx}"></div>
+    `;
+    grid.appendChild(wrap);
+    caseStates.push({idx, cause:c.cause, correctFeats:c.feats});
+  });
+}
+buildCasesGrid();
+
+function gradeAllCases(){
+  let correctCount=0;
+  caseStates.forEach(st=>{
+    const guessSel=document.querySelector(`select[data-guess="${st.idx}"]`);
+    const guess=guessSel.value;
+    const checked=[...document.querySelectorAll(`input[data-slide="${st.idx}"]:checked`)].map(i=>i.dataset.feat);
+    const correctFeatChecked = checked.filter(f=>st.correctFeats.includes(f)).length;
+    const wrongFeatChecked = checked.filter(f=>!st.correctFeats.includes(f)).length;
+    const causeOk = guess===st.cause;
+    const good = causeOk && correctFeatChecked>=2 && wrongFeatChecked===0;
+    if(good) correctCount++;
+    const box=document.getElementById('caseResult'+st.idx);
+    box.classList.add('show');
+    box.classList.toggle('ok',good);
+    box.classList.toggle('no',!good);
+    if(!guess){
+      box.textContent="اختر السبب الأرجح أولًا.";
+      box.classList.remove('ok'); box.classList.add('no');
+    } else {
+      box.textContent = (causeOk?`✔ تشخيص صحيح: ${CAUSES[st.cause].name}. الإجراء المقترح: ${CAUSES[st.cause].fix}. `:`✘ التشخيص الصحيح هو: ${CAUSES[st.cause].name}. `) +
+        (wrongFeatChecked>0 ? `لاحظ أنك اخترت ملاحظة لا تدعم هذا السبب. ` : '') +
+        (correctFeatChecked<2 ? `حاول اختيار المزيد من الملاحظات الداعمة الفعلية.` : '');
+    }
+  });
+  document.getElementById('casesScoreMsg').textContent = `النتيجة: ${correctCount} من ${caseStates.length} حالات مشخَّصة بدقة.`;
+  unlockStage(4);
+}
+
+/* ============================================================
+   8. EVALUATE — mystery field data
+============================================================ */
+const mysteryCauseKey='lowCN';
+const mysteryData=[27,45,44,40,36];
+document.getElementById('mtd1').textContent=mysteryData[0];
+document.getElementById('mtd2').textContent=mysteryData[1];
+document.getElementById('mtd3').textContent=mysteryData[2];
+document.getElementById('mtd4').textContent=mysteryData[3];
+document.getElementById('mtd5').textContent=mysteryData[4];
+document.getElementById('mMoist').textContent="58٪ (طبيعية)";
+document.getElementById('mSmell').textContent="أمونيا نفاذة واضحة";
+document.getElementById('mCN').textContent="≈ 16 : 1";
+
+function buildFinalFeatList(){
+  const correctFeats=["رائحة أمونيا نفاذة واضحة","نسبة C:N منخفضة عن الحد الأدنى المثالي (~16 بدل 25-30)","ارتفاع حراري سريع أولي ثم توقف/تذبذب","الرطوبة ضمن النطاق الطبيعي فعليًا (وليست هي السبب)"];
+  const distractors=["رطوبة مرتفعة جدًا فوق 72٪","حجم الكومة صغير جدًا","لم تُقلَب الكومة إطلاقًا","جفاف واضح للمواد"];
+  const options=[...correctFeats,...distractors].sort(()=>Math.random()-0.5);
+  document.getElementById('finalFeatList').innerHTML = options.map(f=>`<label><input type="checkbox" data-ffeat="${f}"> ${f}</label>`).join('');
+  window.__correctFinalFeats=correctFeats;
+}
+buildFinalFeatList();
+
+let finalClassifyCorrect=false;
+function submitFinalClassification(){
+  const guess=document.getElementById('finalTissueSelect').value;
+  const justify=document.getElementById('finalJustify').value.trim();
+  const checked=[...document.querySelectorAll('input[data-ffeat]:checked')].map(i=>i.dataset.ffeat);
+  const correctFeats=window.__correctFinalFeats;
+  const correctChecked=checked.filter(f=>correctFeats.includes(f)).length;
+  const wrongChecked=checked.filter(f=>!correctFeats.includes(f)).length;
+  const causeOk = guess===mysteryCauseKey;
+  finalClassifyCorrect = causeOk && correctChecked>=3 && wrongChecked===0 && justify.length>10;
+
+  const box=document.getElementById('finalResult');
+  box.classList.add('show');
+  box.classList.toggle('ok',finalClassifyCorrect);
+  box.classList.toggle('no',!finalClassifyCorrect);
+  let msg='';
+  if(!guess) msg="اختر السبب الأرجح أولًا.";
+  else {
+    msg = causeOk ? `✔ تشخيص صحيح: ${CAUSES[mysteryCauseKey].name}. الإجراء المقترح المرجعي: ${CAUSES[mysteryCauseKey].fix}. ` : `✘ غير دقيق — السبب الفعلي هو ${CAUSES[mysteryCauseKey].name}. `;
+    msg += correctChecked<3 ? `تحتاج لاختيار 3 ملاحظات داعمة صحيحة على الأقل (اخترت ${correctChecked}). ` : `أحسنت في اختيار الملاحظات (${correctChecked} صحيحة). `;
+    if(wrongChecked>0) msg += `لاحظ أنك اخترت ${wrongChecked} ملاحظة لا تدعم هذا التشخيص. `;
+    if(justify.length<=10) msg += `أضف إجراءً تصحيحيًا أوضح بجملة كاملة.`;
+  }
+  box.textContent=msg;
+
+  document.getElementById('quizCard').style.display='block';
+  if(!document.getElementById('quizContainer').dataset.built) buildQuiz();
+  document.getElementById('quizCard').scrollIntoView({behavior:'smooth'});
+}
+
+/* ---- Bloom's taxonomy quiz — pool of 3 per level ---- */
+const QUIZ_POOL={
+  "تذكّر":[
+    {q:"ما نطاق حرارة المرحلة الحرارية (Thermophilic) في التسميد العضوي؟",
+     opts:["0–20°م","20–45°م","45–65°م","90–100°م"], correct:2},
+    {q:"ما اسم المادة الداكنة المستقرة الناتجة عن اكتمال التحلل؟",
+     opts:["الدبال (Humus)","الأمونيا","الميثان","النترات"], correct:0},
+    {q:"ما نسبة C:N المثالية تقريبًا لبدء تسميد فعّال؟",
+     opts:["10 : 1","27 : 1","60 : 1","100 : 1"], correct:1}
+  ],
+  "فهم":[
+    {q:"لماذا تُعدّ التهوية (القلب الدوري) ضرورية لتجنّب الرائحة الكريهة؟",
+     opts:["لأنها تبرّد الكومة فقط","لأنها تزوّد البكتيريا الهوائية بالأكسجين وتمنع النشاط اللاهوائي المسبّب للروائح","لأنها تزيد الرطوبة","لا علاقة للتهوية بالرائحة"], correct:1},
+    {q:"لماذا نعتبر ارتفاع الحرارة في الأيام الأولى مؤشرًا صحيًا وليس مشكلة؟",
+     opts:["لأنه يدل على نشاط بكتيري فعّال يحلّل المواد بكفاءة","لأنه يعني أن الكومة ستحترق قريبًا","لأنه يقلّل من نسبة C:N تلقائيًا","لا معنى علميًا لارتفاع الحرارة"], correct:0},
+    {q:"لماذا تنخفض الحرارة تدريجيًا في مرحلة النضج رغم استمرار النشاط الحيوي؟",
+     opts:["لأن المواد سهلة التحلل قلّت وأصبح النشاط أقل كثافة","لأن البكتيريا تموت فجأة بالكامل","لأن الأكسجين ينفد كليًا","لأن الرطوبة ترتفع فجأة"], correct:0}
+  ],
+  "تطبيق":[
+    {q:"كومة نسبة C:N فيها 45 (كربون زائد). ما الإجراء الأنسب؟",
+     opts:["إضافة مواد نيتروجينية مثل بقايا خضروات أو عشب أخضر","إضافة مزيد من الأوراق الجافة","تقليل الرطوبة","تقليل حجم الكومة"], correct:0},
+    {q:"كومة رطوبتها 25٪ وحرارتها لا ترتفع. ما الإجراء الأنسب؟",
+     opts:["إضافة ماء تدريجيًا حتى قوام الإسفنجة المعصورة","إضافة مواد كربونية جافة","تقليل التهوية","زيادة نسبة C:N"], correct:0},
+    {q:"كومة رطوبتها 78٪ ولم تُقلَب إطلاقًا، ورائحتها كريهة. ما الإجراء الأنسب؟",
+     opts:["قلبها وإضافة مواد جافة خشنة لتحسين التهوية","إضافة مزيد من الماء","تغطيتها بغطاء محكم لمنع تسرّب الحرارة","لا حاجة لأي إجراء"], correct:0}
+  ],
+  "تحليل":[
+    {q:"كومة حرارتها ترتفع بسرعة في اليوم الأول ثم تتوقف وتنبعث منها رائحة أمونيا. ما التفسير الأرجح؟",
+     opts:["نسبة C:N منخفضة جدًا (نيتروجين زائد)","نسبة C:N مرتفعة جدًا (كربون زائد)","حجم الكومة كبير جدًا","التهوية ممتازة جدًا"], correct:0},
+    {q:"كومة بها توازن ممتاز لكل العوامل (C:N، رطوبة، تهوية) لكن حرارتها لا ترتفع كثيرًا وتبرد بسرعة. ما التفسير الأرجح؟",
+     opts:["حجم الكومة صغير جدًا فلا تحتفظ بالحرارة المتولدة","نسبة C:N خاطئة بالتأكيد","الرطوبة زائدة بالتأكيد","لا يوجد تفسير علمي ممكن"], correct:0},
+    {q:"كومة وصلت 60°م ثم بردت تدريجيًا بانتظام خلال 10 أيام، والرائحة ترابية طيبة طوال الوقت. ما التفسير الأرجح؟",
+     opts:["مسار طبيعي سليم ينتقل الآن لمرحلة النضج","خلل في التهوية يجب معالجته فورًا","نقص حاد في الرطوبة","نسبة C:N غير متوازنة إطلاقًا"], correct:0}
+  ],
+  "تقييم":[
+    {q:"طالب استنتج أن كومة باردة السبب فيها بالضرورة نقص الرطوبة، معتمدًا فقط على برودتها دون فحص الرائحة أو الملمس. ما أفضل نقد لهذا الاستنتاج؟",
+     opts:["استنتاج سليم دائمًا لأن البرودة تعني نقص الرطوبة حصرًا","استنتاج ضعيف لأن البرودة قد تنتج عن عدة أسباب مختلفة (حجم صغير، تهوية زائدة، جفاف، أو حتى دخول مرحلة النضج) يجب تمييزها بالرائحة والملمس معًا","لا يمكن الحكم على كومة سماد إطلاقًا دون معدات مخبرية","البرودة دائمًا مؤشر إيجابي على اكتمال التسميد"], correct:1},
+    {q:"لماذا يُعدّ فحص الرائحة والملمس معًا مع قراءة الحرارة خطوة تقييمية أفضل من الاعتماد على الحرارة وحدها؟",
+     opts:["لأن الحرارة وحدها لا تميّز بين أسباب متعددة قد تنتج نفس القراءة (مثل الجفاف مقابل صغر الحجم)، بينما الرائحة والملمس يضيفان أدلة تشخيصية مستقلة","لأن قياس الحرارة غير دقيق أصلًا في كل الأحوال","لأن الرائحة وحدها كافية دون أي قياس آخر","لا فائدة علمية من فحص الرائحة إطلاقًا"], correct:0},
+    {q:"لماذا يظل بناء كومة سماد بحجم كافٍ (لا صغير جدًا) شرطًا تقييميًا مهمًا حتى مع توازن كل العوامل الأخرى؟",
+     opts:["لأن الحجم الصغير جدًا يفقد الحرارة المتولدة بسرعة عبر السطح الخارجي فلا تتراكم لتصل الذروة الحرارية اللازمة لقتل مسبّبات الأمراض","لأن الحجم لا علاقة له بالحرارة إطلاقًا","لأن الأحجام الكبيرة دائمًا أسوأ من الصغيرة","لأن الحجم يغيّر نسبة C:N تلقائيًا"], correct:0}
+  ]
+};
+let QUIZ=[];
+let quizScore=0;
+function buildQuiz(){
+  const c=document.getElementById('quizContainer');
+  c.dataset.built='1';
+  QUIZ = Object.keys(QUIZ_POOL).map(level=>{
+    const pool=QUIZ_POOL[level];
+    const pick=pool[Math.floor(Math.random()*pool.length)];
+    return {level, ...pick};
+  });
+  QUIZ.forEach((item,qi)=>{
+    const div=document.createElement('div'); div.className='check-q';
+    div.innerHTML = `<p class="q"><span class="badge">${item.level}</span> ${qi+1}) ${item.q}</p>` +
+      item.opts.map((o,oi)=>`<button class="opt-btn" data-qi="${qi}" data-oi="${oi}">${o}</button>`).join('') +
+      `<div class="feedback"></div>`;
+    c.appendChild(div);
+  });
+  c.querySelectorAll('.opt-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const qi=+b.dataset.qi, oi=+b.dataset.oi;
+      const group=c.querySelectorAll(`.opt-btn[data-qi="${qi}"]`);
+      if(b.dataset.locked) return;
+      group.forEach(x=>x.dataset.locked='1');
+      const isCorrect = oi===QUIZ[qi].correct;
+      if(isCorrect) quizScore++;
+      group.forEach(x=>{
+        if(+x.dataset.oi===QUIZ[qi].correct) x.classList.add('correct');
+        else if(x===b) x.classList.add('wrong');
+      });
+      const fb=b.parentElement.querySelector('.feedback');
+      fb.textContent = isCorrect ? "✔ صحيح." : "✘ غير صحيح — الإجابة الصائبة مظللة بالأخضر.";
+      fb.classList.add('show');
     });
   });
 }
-function showFinal(){
-  const pct = Math.round(quizScore/QUIZ.length*100);
-  document.getElementById('finalBox').style.display='block';
-  document.getElementById('finalScore').textContent = pct+'%';
-  document.getElementById('finalTitle').textContent = pct>=80?'أداء ممتاز! 🌱':(pct>=60?'أداء جيد':'يحتاج مراجعة');
-  document.getElementById('finalSub').textContent = `أجبت بشكل صحيح على ${quizScore} من ${QUIZ.length} أسئلة تغطي جميع مستويات بلوم.`;
+
+function gradeQuiz(){
+  const total=QUIZ.length;
+  const classifyPts = finalClassifyCorrect ? 1 : 0;
+  const overall = Math.round(((quizScore + classifyPts) / (total+1)) * 100);
+  document.getElementById('finalScoreCard').style.display='block';
+  document.getElementById('scoreBig').textContent = overall+'%';
+  let note='';
+  if(overall>=80) note="أداء ممتاز! أنت جاهز لتشخيص مشكلات كومات السماد الحقيقية بثقة.";
+  else if(overall>=50) note="أداء جيد — راجع مرحلة الشرح (مراحل التحلل والعوامل الحرجة) ومرحلة تشخيص الحالات لتعزيز نقاط الضعف.";
+  else note="يُنصح بمراجعة التجربة من مرحلة الاستكشاف مجددًا قبل التقدّم لتحديات ميدانية أصعب.";
+  document.getElementById('scoreNote').textContent = note + ` (${quizScore}/${total} في الاختبار، والتشخيص النهائي: ${finalClassifyCorrect?'صحيح':'غير مكتمل/غير دقيق'})`;
+  document.getElementById('finalScoreCard').scrollIntoView({behavior:'smooth'});
 }
-document.getElementById('restartBtn').addEventListener('click', buildQuiz);
+
+function downloadReport(){
+  const total=QUIZ.length;
+  const overall=document.getElementById('scoreBig').textContent;
+  const lines=[
+    "تقرير معمل تحلل المواد العضوية والسماد العضوي",
+    "======================================",
+    "التاريخ: "+new Date().toLocaleString('ar'),
+    "",
+    "السبب الفعلي في كومة المزرعة الغامضة: "+CAUSES[mysteryCauseKey].name,
+    "التشخيص النهائي للطالب: "+(finalClassifyCorrect?"صحيح ✔":"غير دقيق/غير مكتمل ✘"),
+    "",
+    "أسئلة الاختبار الختامي:",
+    ...QUIZ.map((item,i)=>`  ${i+1}. [${item.level}] ${item.q}`),
+    "",
+    "النتيجة في الاختبار: "+quizScore+" / "+total,
+    "النتيجة الإجمالية للتجربة: "+overall,
+    "",
+    "ملاحظة: هذا التقرير وُلِّد محليًا داخل متصفحك ولا يُرسل لأي خادم."
+  ].join("\n");
+  const blob=new Blob([lines], {type:"text/plain;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download="تقرير_معمل_السماد.txt";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 </script>
 </body>
 </html>
